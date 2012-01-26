@@ -14,16 +14,16 @@ package
 	 */
 	public class Person extends Entity
 	{
-		public const MIN_FLOAT_X:Number = 50;			
-		public const MAX_FLOAT_X:Number = 100;	// 20	
+		public const MIN_FLOAT_X:Number = 0;			
+		public const MAX_FLOAT_X:Number = 40;	// 20	
 		public const MIN_FLOAT_Y:Number = 10;		
 		public const MAX_FLOAT_Y:Number = 60;
-		public const HANG_TIME:Number = 0.01; 	// Time at top of wave, before floating back down
+		public const HANG_TIME:Number = 0; 	// Time at top of wave, before floating back down
 		public const FLOAT_SPEED:Number = 14;
 		public const FLOAT_DURATION:Number = 3;	// Used INSTEAD of FLOAT_SPEED, depending on which you want to be constant
 		
 		public const MIN_ANGLE_CHANGE:Number = 0;
-		public const MAX_ANGLE_CHANGE:Number = 20;
+		public const MAX_ANGLE_CHANGE:Number = 30;
 		
 		public var floatXDirection:Number;
 		public var floatX:Number;
@@ -80,41 +80,59 @@ package
 				floatX *= -1;
 			}
 			floatY = MIN_FLOAT_Y + FP.random * (MAX_FLOAT_Y - MIN_FLOAT_Y);
-			trace('floatY: ' + floatY);
-			var duration:Number = floatY / FLOAT_SPEED;
+			//var duration:Number = floatY / FLOAT_SPEED;
+			var duration:Number = FLOAT_DURATION + floatX / Global.PHASE_DELAY_DIVIDER;
 			mover = new LinearMotion(floatUpCallback);
 			addTween(mover);
-			mover.setMotion(x, y, x + floatX, y - floatY, FLOAT_DURATION, Ease.quadInOut);
+			mover.setMotion(x, y, x + floatX, y - floatY, duration, Ease.quadInOut);
+			
+			//trace('floatX: ' + floatX);
+			//trace('duration: ' + duration);			
 			
 			// Angle tween
 			angleChange = MIN_ANGLE_CHANGE + FP.random * (MAX_ANGLE_CHANGE - MIN_ANGLE_CHANGE);
 			angleChange *= -floatXDirection;
 			angleChanger = new AngleTween();
 			addTween(angleChanger);
-			angleChanger.tween(image.angle, angleChange, FLOAT_DURATION, Ease.quadInOut);
+			angleChanger.tween(image.angle, angleChange, duration, Ease.quadInOut);
 		}
 		
 		public function floatDown():void
 		{
-			var duration:Number = floatY / FLOAT_SPEED;
+			//var duration:Number = floatY / FLOAT_SPEED;
+			var duration:Number = FLOAT_DURATION + floatX / Global.PHASE_DELAY_DIVIDER;
 			mover = new LinearMotion(floatDownCallback);
 			addTween(mover);
-			mover.setMotion(x, y, x + floatX, y + floatY, FLOAT_DURATION, Ease.quadInOut);	
+			mover.setMotion(x, y, x + floatX, y + floatY, duration, Ease.quadInOut);	
 			
 			// Angle tween
 			angleChanger = new AngleTween();
 			addTween(angleChanger);
-			angleChanger.tween(image.angle, -angleChange, FLOAT_DURATION, Ease.quadInOut);			
+			angleChanger.tween(image.angle, -angleChange, duration, Ease.quadInOut);			
 		}
 		
 		public function floatUpCallback():void
 		{
-			FP.alarm(HANG_TIME, floatDown);
+			if (HANG_TIME > 0)
+			{
+				FP.alarm(HANG_TIME, floatDown);
+			}
+			else 
+			{
+				floatDown();
+			}
 		}
 		
 		public function floatDownCallback():void
 		{
-			FP.alarm(HANG_TIME, floatUp);
+			if (HANG_TIME > 0)
+			{
+				FP.alarm(HANG_TIME, floatUp);
+			}
+			else 
+			{
+				floatUp();
+			}			
 		}		
 		
 	}
