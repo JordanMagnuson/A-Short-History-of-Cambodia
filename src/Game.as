@@ -13,15 +13,18 @@ package
 	public class Game extends World
 	{
 		public var sndWaves:Sfx = new Sfx(Assets.SND_WAVES);
+		
 		public function Game() 
 		{
-			trace('game started');
 		}
 		
 		override public function begin():void
 		{
 			// Background
 			add(new Background);
+			
+			// Mouse controller
+			add(new MouseController);
 			
 			// Waves
 			addWaveController();

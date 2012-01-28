@@ -9,6 +9,10 @@ package
 		// Misc
 		[Embed(source = "../assets/background.png")] public static const BACKGROUND:Class;
 		
+		// Cursor images
+		[Embed(source = "../assets/hand_cursor_open.png")] public static const HAND_CURSOR_OPEN:Class;
+		[Embed(source = "../assets/hand_cursor_closed.png")] public static const HAND_CURSOR_CLOSED:Class;
+		
 		// Wave images
 		[Embed(source = "../assets/wave_01.png")] public static const WAVE_01:Class;
 		[Embed(source = "../assets/wave_02.png")] public static const WAVE_02:Class;

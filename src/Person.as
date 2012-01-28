@@ -38,8 +38,16 @@ package
 		
 		public function Person(x:Number = 0, y:Number = 0, phaseDelay:Number = 0) 
 		{
-			image.centerOO();
 			super(x, y, image);
+			type = 'person';
+			image.centerOO();
+			trace('origin x: ' + image.originX);
+			trace('origin y: ' + image.originY);
+			trace('width: ' + image.width);
+			trace('height: ' + image.height);
+			//setHitbox(image.width * 2, image.height * 2, image.width, image.height);
+			setHitbox(image.width, image.height, image.originX, image.originY);
+			//image.centerOO();
 			this.phaseDelay = phaseDelay;
 		}
 		
