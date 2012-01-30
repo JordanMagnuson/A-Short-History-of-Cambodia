@@ -52,7 +52,7 @@ package
 			{ 
 				var yPos:Number = Global.WATER_LINE + 20 + FP.random * 20;
 				phaseDelay = xPos / Global.PHASE_DELAY_DIVIDER;
-				add(new Person(xPos, yPos, phaseDelay));
+				add(new PersonFloating(xPos, yPos, phaseDelay));
 				
 			}			
 			

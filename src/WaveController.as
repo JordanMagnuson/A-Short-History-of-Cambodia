@@ -2,6 +2,8 @@ package
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.utils.Draw;
+	
 	/**
 	 * ...
 	 * @author Jordan Magnuson
@@ -17,9 +19,9 @@ package
 		
 		public function WaveController() 
 		{
-			x = FP.halfWidth - X_VARIATION + FP.random * (2 * X_VARIATION);
-			y = Global.WATER_LINE - Y_VARIATION + FP.random * (2 * Y_VARIATION);		
-			currentWave = new Wave(x, y, 0);
+			var xPos:Number = FP.halfWidth - X_VARIATION + FP.random * (2 * X_VARIATION);
+			var yPos:Number = Global.WATER_LINE - Y_VARIATION + FP.random * (2 * Y_VARIATION);		
+			currentWave = new Wave(xPos, yPos, 0);
 		}
 		
 		override public function added():void
@@ -41,11 +43,18 @@ package
 			lastWave = currentWave;
 			lastWave.fadeOut(FADE_DURATION);
 			
-			x = FP.halfWidth - X_VARIATION + FP.random * (2 * X_VARIATION);
-			y = Global.WATER_LINE - Y_VARIATION + FP.random * (2 * Y_VARIATION);		
-			FP.world.add(currentWave = new Wave(x, y, 0));
+			var xPos:Number = FP.halfWidth - X_VARIATION + FP.random * (2 * X_VARIATION);
+			var yPos:Number = Global.WATER_LINE - Y_VARIATION + FP.random * (2 * Y_VARIATION);		
+			FP.world.add(currentWave = new Wave(xPos, yPos, 0));
 			currentWave.fadeIn(FADE_DURATION);
 		}
+		
+		override public function render():void
+		{
+			Draw.line(0, Global.WATER_LINE, FP.width, Global.WATER_LINE, Colors.BEACH_YELLOW, 1);
+			super.render();
+		}
+		
 	}
 
 }

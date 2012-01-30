@@ -39,28 +39,38 @@ package
 
 			var overlapPerson:Person = collide('person', x, y) as Person;
 			
+			// Input
 			if (overlapPerson && Input.mousePressed)
 			{
-				Global.personGrabbed = true;
+				FP.world.add(Global.personGrabbed = new PersonGrabbed(overlapPerson.x, overlapPerson.y, overlapPerson.image.angle, overlapPerson.health, overlapPerson.maxHealth));
+				overlapPerson.destroy();
 			}	
 			else if (Input.mouseReleased)
 			{
-				Global.personGrabbed = false;
+				if (Global.personGrabbed)
+				{
+					FP.world.add(new PersonSwimming(Global.personGrabbed.x, Global.personGrabbed.y, Global.personGrabbed.image.angle, Global.personGrabbed.health, Global.personGrabbed.maxHealth));
+					Global.personGrabbed.destroy();
+					Global.personGrabbed = null;
+				}
 			}
-			else if (Global.personGrabbed)
+			
+			// Icon
+			if (Global.personGrabbed)
 			{
 				graphic = handClosed;
+				handClosed.alpha = 0.5;
 			}				
 			else if (overlapPerson)
 			{
 				graphic = handOpen;
-				mask = handOpenMask;
+				//mask = handOpenMask;
 				handOpen.alpha = 1;
 			}
 			else
 			{
 				graphic = handOpen;
-				mask = handOpenMask;
+				//mask = handOpenMask;
 				handOpen.alpha = 0.5;
 			}
 			
