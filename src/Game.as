@@ -12,7 +12,7 @@ package
 	 */
 	public class Game extends World
 	{
-		public var sndWaves:Sfx = new Sfx(Assets.SND_WAVES);
+		public static var sndWaves:Sfx = new Sfx(Assets.SND_WAVES);
 		
 		public function Game() 
 		{
@@ -31,12 +31,19 @@ package
 			FP.alarm(1, addWaveController);
 			FP.alarm(2, addWaveController);
 			FP.alarm(3, addWaveController);
+			add(Global.floatController = new FloatController);
 			
 			// Place people
 			placePeople();
 			
 			// Sound
 			sndWaves.loop();
+		}
+		
+		override public function update():void
+		{
+			Global.t += FP.elapsed;
+			super.update();
 		}
 		
 		public function placePeople():void
@@ -50,7 +57,7 @@ package
 			xPosArray.sort();
 			for each (var xPos:Number in xPosArray)
 			{ 
-				var yPos:Number = Global.WATER_LINE + 20 + FP.random * 20;
+				var yPos:Number = Global.WATER_LINE + FP.random * Global.FLOAT_LEVEL_VARIATION;
 				phaseDelay = xPos / Global.PHASE_DELAY_DIVIDER;
 				add(new PersonFloating(xPos, yPos, phaseDelay));
 				

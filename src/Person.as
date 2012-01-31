@@ -13,6 +13,7 @@ package
 		public var image:Image = Image.createRect(Global.PERSON_WIDTH, Global.PERSON_HEIGHT, Colors.BLACK);
 		public var health:Number;
 		public var maxHealth:Number;
+		public var floatLevel:Number;
 		
 		public function Person(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
@@ -22,6 +23,7 @@ package
 			image.angle = angle;
 			this.health = health;
 			this.maxHealth = maxHealth;
+			this.floatLevel = Global.WATER_LINE + FP.random * Global.FLOAT_LEVEL_VARIATION;
 			
 			// Hitbox
 			image.centerOO();

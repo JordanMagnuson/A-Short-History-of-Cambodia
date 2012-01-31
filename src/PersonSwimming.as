@@ -10,7 +10,8 @@ package
 	 * @author ...
 	 */
 	public class PersonSwimming extends Person
-	{
+	{	
+		public var hitSurface:Boolean = false;
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;		
 		
@@ -37,17 +38,35 @@ package
 		public function swimUp():void
 		{
 			var yDist:Number = 80;
-			if (yDist > (y - Global.WATER_LINE))
+			if (yDist > (y - floatLevel))
 			{
-				yDist = y - Global.WATER_LINE
+				yDist = y - floatLevel;
+				hitSurface = true;
 			}
 			var xDist:Number = 5;
 			var xDir:Number = FP.choose( -1, 1);
-			var duration:Number = 1;
+			var duration:Number;
+			if (yDist == 80)
+			{
+				duration = 1;
+			}
+			else 
+			{
+				duration = 1 * (yDist / 40);
+			}
 			
 			mover = new LinearMotion(swimUpCallback);
 			addTween(mover);
-			mover.setMotion(x, y, x + xDist * xDir, y - yDist, duration, Ease.quadInOut);
+			var quadFunc:Function;
+			if (hitSurface)
+			{
+				quadFunc = Ease.quadIn;
+			}
+			else 
+			{
+				quadFunc = Ease.quadInOut;
+			}
+			mover.setMotion(x, y, x + xDist * xDir, y - yDist, duration, quadFunc);
 			
 			//trace('floatX: ' + floatX);
 			//trace('duration: ' + duration);			
@@ -62,7 +81,15 @@ package
 		
 		public function swimUpCallback():void
 		{
-			swimUp();
+			if (hitSurface)
+			{
+				FP.world.add(new PersonGasping(x, y, image.angle, health, maxHealth));
+				this.destroy();
+			}
+			else 
+			{
+				swimUp();
+			}
 		}
 		
 	}

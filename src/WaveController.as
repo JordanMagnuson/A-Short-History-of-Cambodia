@@ -51,6 +51,7 @@ package
 		
 		override public function render():void
 		{
+			// TODO: get rid of this
 			Draw.line(0, Global.WATER_LINE, FP.width, Global.WATER_LINE, Colors.BEACH_YELLOW, 1);
 			super.render();
 		}
