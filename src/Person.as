@@ -14,8 +14,9 @@ package
 		public var health:Number;
 		public var maxHealth:Number;
 		public var floatLevel:Number;
+		public var breathDirection:Number = 1;
 		
-		public function Person(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
+		public function Person(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100, scale:Number = 1) 
 		{
 			super(x, y, image);
 			//setHitbox(image.width * 2, image.height * 2, image.width, image.height);
@@ -28,6 +29,12 @@ package
 			// Hitbox
 			image.centerOO();
 			setHitbox(image.width, image.height, image.originX, image.originY);			
+		}
+		
+		override public function update():void
+		{
+			image.alpha = health / 100;
+			super.update();
 		}
 		
 		public function destroy():void
