@@ -17,7 +17,7 @@ package
 		public static const BASE_HEALTH:Number = 100;
 		public static const HEALTH_VARIATION:Number = 25;
 		public static const MIN_HEALTH:Number = 50;
-		public static const HEALTH_LOSS_RATE:Number = 0.2; 			// Health lost per second while under water.
+		public static const HEALTH_LOSS_RATE:Number = 0.05; 			// Health lost per second while under water.
 		public static const HEALTH_GAIN_RATE:Number = 0.1; 	
 		
 		public static const BREATH_SCALE_MIN:Number = 0.8;

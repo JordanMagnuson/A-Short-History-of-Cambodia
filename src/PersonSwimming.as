@@ -28,6 +28,11 @@ package
 			{
 				health -= Global.HEALTH_LOSS_RATE;
 			}
+			else
+			{
+				FP.world.add(new PersonDrowning(x, y, image.angle, health, maxHealth, image.scale));
+				this.destroy();
+			}
 			if (mover) 
 			{
 				x = mover.x;

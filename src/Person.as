@@ -10,7 +10,7 @@ package
 	 */
 	public class Person extends Entity
 	{
-		public var image:Image = Image.createRect(Global.PERSON_WIDTH, Global.PERSON_HEIGHT, Colors.BLACK);
+		public var image:Image = Image.createRect(Global.PERSON_WIDTH, Global.PERSON_HEIGHT, Colors.WHITE);
 		public var health:Number;
 		public var maxHealth:Number;
 		public var floatLevel:Number;
@@ -21,6 +21,7 @@ package
 			super(x, y, image);
 			//setHitbox(image.width * 2, image.height * 2, image.width, image.height);
 			type = 'person';
+			image.color = Colors.BLACK;
 			image.angle = angle;
 			this.health = health;
 			this.maxHealth = maxHealth;

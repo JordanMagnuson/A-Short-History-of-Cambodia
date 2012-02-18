@@ -1,8 +1,10 @@
 package  
 {
+	import net.flashpunk.Sfx;
 	import net.flashpunk.tweens.misc.AngleTween;
 	import net.flashpunk.tweens.misc.NumTween;
 	import net.flashpunk.tweens.motion.LinearMotion;
+	import net.flashpunk.tweens.sound.SfxFader;
 	import net.flashpunk.utils.Ease;
 	import net.flashpunk.FP;
 	
@@ -24,16 +26,16 @@ package
 		public static const MIN_ANGLE_CHANGE:Number = 0;
 		public static const MAX_ANGLE_CHANGE:Number = 0;
 		
-		public static const BREATH_SCALE_CHANGE:Number = 0.01;
-		public static const BREATH_DURATION_CHANGE:Number = 0.1;
+		//public static const BREATH_SCALE_CHANGE:Number = 0.01;
+		//public static const BREATH_DURATION_CHANGE:Number = 0.1;
 			
 		
 		public var floatXDirection:Number;
 		public var floatX:Number;
 		public var floatY:Number;
 		public var angleChange:Number;
-		public var breathDuration:Number = 1;
-		public var breathScale:Number = 0.3;
+		public var breathDuration:Number = 1.5;
+		public var breathScale:Number = 0.4;
 		
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;
@@ -42,16 +44,28 @@ package
 		public var firstGasp:Boolean = true;
 		public var healthyAgain:Boolean = false;
 		
+		public var sndSplashUp:Sfx = new Sfx(Assets.SND_SPLASH_UP);
+		public var sndGasping:Sfx = new Sfx(Assets.SND_GASPING);
+		public var sndGaspingFader:SfxFader;
+		
 		public function PersonGasping(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
 			super(x, y, angle, health, maxHealth);
 			image.alpha = health / 100;
+			sndGaspingFader = new SfxFader(sndGasping, destroy);
 		}
 		
 		override public function added():void
 		{
 			floatDown();
 			breatheIn(0.1);
+			sndSplashUp.play();
+			//FP.alarm(0.1, playGaspingSound);
+		}
+		
+		public function playGaspingSound():void
+		{
+			sndGasping.loop(0.2);
 		}
 		
 		override public function update():void
@@ -130,6 +144,9 @@ package
 		public function changeToFloater():void
 		{
 			trace('changetofloater');
+			addTween(sndGaspingFader);
+			sndGaspingFader.fadeTo(0, 10, Ease.quadIn);
+			
 			var floater:PersonFloating = FP.world.add(new PersonFloating(x, y)) as PersonFloating;
 			floater.breathDuration = this.breathDuration;
 			floater.breathScale = this.breathScale;
@@ -145,7 +162,10 @@ package
 				floater.breatheOut();
 				//floater.scaleChanger.percent = this.scaleChanger.percent;				
 			}
-			this.destroy();
+			
+			this.type = 'inactive';
+			this.visible = false;
+			//this.destroy();
 		}
 		
 		public function breatheIn(duration:Number = 0):void
