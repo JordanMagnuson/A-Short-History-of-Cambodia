@@ -38,6 +38,9 @@ package
 			
 			// Sound
 			sndWaves.loop();
+			
+			// Blood overlay
+			add(new BloodOverlay);
 		}
 		
 		override public function update():void

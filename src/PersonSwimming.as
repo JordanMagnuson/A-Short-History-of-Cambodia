@@ -24,6 +24,11 @@ package
 		
 		override public function update():void
 		{
+			if (!sndHeartbeat.playing)
+			{
+				sndHeartbeat.loop();
+			}			
+			
 			if (health > Global.MIN_HEALTH)
 			{
 				health -= Global.HEALTH_LOSS_RATE;
@@ -31,6 +36,7 @@ package
 			else
 			{
 				FP.world.add(new PersonDrowning(x, y, image.angle, health, maxHealth, image.scale));
+				sndHeartbeat.stop();
 				this.destroy();
 			}
 			if (mover) 
@@ -44,6 +50,7 @@ package
 		override public function added():void
 		{
 			swimUp();
+			super.added();
 		}
 		
 		public function swimUp():void
@@ -92,7 +99,9 @@ package
 		
 		public function changeToGasper():void
 		{
-			FP.world.add(new PersonGasping(x, y, image.angle, health, maxHealth));
+			var gasper:PersonGasping;
+			FP.world.add(gasper = new PersonGasping(x, y, image.angle, health, maxHealth));
+			gasper.sndHeartbeat = this.sndHeartbeat;
 			this.destroy();
 		}
 		
@@ -107,6 +116,18 @@ package
 				swimUp();
 			}
 		}
+		
+		// TODO: this makes it so gasper doesn't pick up on heartbeat... need to pass sndHeartbeat on to gasper
+		// but if we don't do this, there's a problem if you grab a swimmer who's already swimming.
+		override public function removed():void
+		{
+			heartbeatFader.cancel();
+			if (sndHeartbeat.playing)
+			{
+				sndHeartbeat.stop();
+			}
+			super.removed();
+		}				
 		
 	}
 

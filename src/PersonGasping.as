@@ -60,6 +60,11 @@ package
 			floatDown();
 			breatheIn(0.1);
 			sndSplashUp.play();
+			
+			// heartbeat
+			heartbeatFader = new SfxFader(sndHeartbeat, stopHearbeat);
+			addTween(heartbeatFader);
+			heartbeatFader.fadeTo(0, 2);
 			//FP.alarm(0.1, playGaspingSound);
 		}
 		
@@ -244,6 +249,16 @@ package
 			addTween(angleChanger);
 			angleChanger.tween(image.angle, -angleChange, duration, Ease.quadInOut);		
 		}	
+		
+		//override public function removed():void
+		//{
+			//heartbeatFader.cancel();
+			//if (sndHeartbeat.playing)
+			//{
+				//sndHeartbeat.stop();
+			//}
+			//super.removed();
+		//}		
 		
 	}
 

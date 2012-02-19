@@ -69,7 +69,7 @@ package
 				return;
 			}
 			
-			if (Global.personGrabbed.health > Global.BASE_HEALTH * 0.6)
+			if (Global.personGrabbed.health > Global.FADE_HEALTH)
 			{
 				jerkRadius = 100000 / Math.pow(Global.personGrabbed.health / 10, 5);
 			}
@@ -146,7 +146,9 @@ package
 				
 				if (Global.personGrabbed)
 				{
-					FP.world.add(new PersonSwimming(Global.personGrabbed.x, Global.personGrabbed.y, Global.personGrabbed.image.angle, Global.personGrabbed.health, Global.personGrabbed.maxHealth));
+					var swimmer:PersonSwimming;
+					FP.world.add(swimmer = new PersonSwimming(Global.personGrabbed.x, Global.personGrabbed.y, Global.personGrabbed.image.angle, Global.personGrabbed.health, Global.personGrabbed.maxHealth));
+					swimmer.sndHeartbeat = Global.personGrabbed.sndHeartbeat;
 					Global.personGrabbed.destroy();
 					Global.personGrabbed = null;
 				}
@@ -174,16 +176,24 @@ package
 			}
 			
 			// Jerking
-			if (Global.personGrabbed && Global.personGrabbed.health > Global.MIN_HEALTH)
+			if (Global.personGrabbed && Global.personGrabbed.y > Global.personGrabbed.floatLevel + Global.FLOAT_LEVEL_VARIATION)
 			{
 				if (!jerking && !preparingToJerk)
 				{
-					trace('start jerking');
-					preparingToJerk = true;
-					jerkAlarm = new Alarm(2, jerkAway);
-					addTween(jerkAlarm);
-					jerkAlarm.start();
-					//jerkAway();
+					if (Global.personGrabbed.health < Global.personGrabbed.maxHealth * 0.9)
+					{
+						trace('start jerking');
+						jerkAway();
+					}
+					else if (Global.personGrabbed.health > Global.MIN_HEALTH) 
+					{
+						trace('preparing to jerk');
+						preparingToJerk = true;
+						jerkAlarm = new Alarm(2, jerkAway);
+						addTween(jerkAlarm);
+						jerkAlarm.start();
+						//jerkAway();						
+					}
 				}		
 			}
 			else if (jerking)
