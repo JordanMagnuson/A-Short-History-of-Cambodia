@@ -75,11 +75,23 @@ package
 		
 		override public function update():void
 		{
-			if (mover) 
+			
+			// Scare
+			if (Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance && !scared)
+			{
+				scare();
+			}					
+			
+			if (mover && scaredMover && scared)
+			{
+				x = scaredMover.x;
+				y = mover.y;
+			}					
+			else if (mover) 
 			{
 				x = mover.x;
 				y = mover.y;
-			}
+			}	
 			
 			if (angleChanger) 
 			{
@@ -105,6 +117,20 @@ package
 			
 			super.update();
 		}		
+		
+		override public function scaredMoverCallback():void
+		{
+			mover.cancel();
+			scared = false;
+			terrified = false;
+			trace('scared mover callback');
+			//mover.x = x;
+			if (y > floatLevel)
+				floatUp();
+			else
+				floatDown();
+			//scared = false;
+		}			
 		
 		public function getFloaterDelay():Number
 		{

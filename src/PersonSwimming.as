@@ -16,6 +16,7 @@ package
 		public var hitSurface:Boolean = false;
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;		
+		public var canBeScared:Boolean = false;
 		
 		public function PersonSwimming(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
@@ -24,6 +25,12 @@ package
 		
 		override public function update():void
 		{
+			// Scare
+			if (canBeScared && Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance && !scared)
+			{
+				scare();
+			}			
+			
 			if (!sndHeartbeat.playing)
 			{
 				sndHeartbeat.loop();
@@ -39,7 +46,13 @@ package
 				sndHeartbeat.stop();
 				this.destroy();
 			}
-			if (mover) 
+			
+			if (mover && scaredMover && scared)
+			{
+				x = scaredMover.x;
+				y = mover.y;
+			}					
+			else if (mover) 
 			{
 				x = mover.x;
 				y = mover.y;
@@ -49,9 +62,26 @@ package
 		
 		override public function added():void
 		{
+			FP.alarm(1, allowScare);
 			swimUp();
 			super.added();
 		}
+		
+		public function allowScare():void
+		{
+			canBeScared = true;
+		}
+		
+		override public function scaredMoverCallback():void
+		{
+			mover.cancel();
+			scared = false;
+			terrified = false;
+			trace('scared mover callback');
+			//mover.x = x;
+			swimUp();
+			//scared = false;
+		}		
 		
 		public function swimUp():void
 		{

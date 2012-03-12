@@ -18,6 +18,7 @@ package
 	public class MouseController extends Entity
 	{
 		public static const MIN_JERK_DIST:Number = 0;
+		public static const MAX_JERK_DIST:Number = 15;
 		
 		public var handOpen:Image = new Image(Assets.HAND_CURSOR_OPEN);
 		public var handClosed:Image = new Image(Assets.HAND_CURSOR_CLOSED);
@@ -82,7 +83,10 @@ package
 			else
 			{
 				jerkRadius -= 4;	// 1.8
+				
 			}
+			if (Math.abs(jerkRadius) > MAX_JERK_DIST)
+				jerkRadius = MAX_JERK_DIST;			
 			//trace('jerkRadius: ' + jerkRadius);
 			var jerkX:Number = FP.random * jerkRadius * FP.choose(1, -1);
 			var jerkY:Number = Math.sqrt(jerkRadius * jerkRadius - jerkX * jerkX) * -1;	// Always jerk upwards

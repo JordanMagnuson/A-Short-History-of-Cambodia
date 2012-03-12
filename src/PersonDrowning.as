@@ -36,6 +36,7 @@ package
 		override public function added():void
 		{
 			Global.peopleKilled += 1;
+			Global.scareDistance = Global.peopleKilled * 20;
 			FP.alarm(0.5, playSound);
 			FP.alarm(1, startDrowning);
 		}
@@ -49,7 +50,22 @@ package
 		{
 			drowning = true;	
 			FP.alarm(1.5, releaseBubble);
-			Global.bloodOverlay.updateAlpha();			
+			Global.bloodOverlay.updateAlpha();		
+			FP.alarm(2, terrifyEveryone);
+		}
+		
+		public function terrifyEveryone():void
+		{
+			var personList:Array = [];
+
+			// Then, we populate the array with all existing Enemy objects!
+			world.getClass(PersonFloating, personList);
+
+			// Finally, we can loop through the array and call each Enemy's die() function.
+			for each (var p:PersonFloating in personList)
+			{
+				p.delayedTerrify(FP.random);
+			}
 		}
 		
 		override public function update():void

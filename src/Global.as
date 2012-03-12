@@ -27,7 +27,8 @@ package
 		public static const MIN_SCARED_MOVE:Number = 70;
 		public static const MAX_SCARED_MOVE:Number = 150;
 		public static const SCARE_MOVE_SPEED:Number = 125;
-		public static const DEAD_BEFORE_SCARE:Number = 1;
+		public static const DEAD_BEFORE_SCARE:Number = 0;	// 1
+		public static var scareDistance:Number = 20;
 		
 		// Global variables
 		public static var t:Number = 0;							// Time elapsed since start of game

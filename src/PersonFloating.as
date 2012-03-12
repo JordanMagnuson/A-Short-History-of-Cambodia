@@ -2,6 +2,8 @@ package
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.Tweener;
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.tweens.misc.AngleTween;
 	import net.flashpunk.tweens.misc.NumTween;
 	import net.flashpunk.tweens.motion.LinearMotion;
@@ -36,15 +38,16 @@ package
 		public var floatY:Number;
 		public var angleChange:Number;
 		public var breathDuration:Number = 3;
-		public var breathScale:Number = 0.1;		
+		public var breathScale:Number = 0.1;	
+		public var breathTweener:LinearMotion;
 		
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;
 		public var scaleChanger:NumTween;
 	
-		public var scaredMover:LinearMotion;
-	
 		public var phaseDelay:Number;
+		
+		public var unterrifyAlarm:Alarm;
 		
 		public function PersonFloating(x:Number = 0, y:Number = 0, phaseDelay:Number = 0) 
 		{
@@ -52,8 +55,8 @@ package
 			//type = 'person_floating';
 			this.phaseDelay = phaseDelay;
 			
-			this.maxY = y + 10;
-			this.minY = y - MAX_FLOAT_Y - 10;		
+			this.maxY = y;
+			this.minY = y - MAX_FLOAT_Y;		
 		}
 		
 		override public function added():void
@@ -72,37 +75,41 @@ package
 		override public function update():void
 		{	
 			// Scare
-			if (Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.peopleKilled * 20 && !scared)
+			if (Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance)
 			{
-				scared = true;
-				terrified = true;
-				scaredMover = new LinearMotion(scaredMoverCallback);
-				addTween(scaredMover);
-				var xChange:Number = Global.MIN_SCARED_MOVE + FP.random * (Global.MAX_SCARED_MOVE - Global.MIN_SCARED_MOVE)
-				if (x < Global.mouseController.x)
-				{
-					xChange *= -1;
-				}
-				if (x + xChange < halfWidth || x + xChange > FP.width - halfWidth)
-				{
-					xChange *= -1;
-				}
-				//if (newX > FP.width - halfWidth)
-				//{
-					//newX = FP.halfWidth - halfWidth;
-				//}
-				scaredMover.setMotionSpeed(x, y, x + xChange, y, Global.SCARE_MOVE_SPEED);	
+				if (!scared) 
+					scare();
+				if (!terrified)
+					terrify();
 			}
-			
-			// Terrified
-			if (terrified)
+			// Unterrify
+			else if (terrified)
 			{
+				if (breathTweener && breathTweener.active) 
+				{
+					//breathTweener.cancel();
+					//breathDuration = breathTweener.x;
+					//breathScale = breathTweener.y;
+					breathTweener.cancel();
+				}
+				switch (Global.peopleKilled)
+				{
+					case 0:
+						breathTweener = new LinearMotion(unterrify);
+						breathTweener.setMotion(breathDuration, breathScale, HEALTHY_BREATH_DURATION, HEALTHY_BREATH_SCALE, 20);
+						break;
+					case 1:
+						unterrifyAlarm = new Alarm(8, unterrify);
+						break;			
+					case 2:
+						unterrifyAlarm = new Alarm(12, unterrify);
+						break;		
+					default:
+						unterrifyAlarm = new Alarm(15, unterrify);
+						break;											
+				}
+				addTween(breathTweener);	
 				terrified = false;
-				scaleChanger.cancel();
-				breathScale = 0.3;
-				breathDuration = 0.5;
-				if (breathDirection == 1) breatheIn();
-				else breatheOut();				
 			}
 			
 			// Position
@@ -123,19 +130,64 @@ package
 				image.angle = angleChanger.angle;
 			}
 			
+			// Breath
+			if (breathTweener && breathTweener.active)
+			{
+				breathDuration = breathTweener.x;
+				breathScale = breathTweener.y;
+			}
+			
 			// Scale
 			if (scaleChanger) 
 			{
 				image.scale = scaleChanger.value;
 			}			
+			
 			super.update();
 		}
 		
-		public function scaredMoverCallback():void
+		public function terrify():void
 		{
-			mover.cancel();
+			trace('terrify');
+			if (unterrifyAlarm) unterrifyAlarm.cancel();
+			if (breathTweener && breathTweener.active) 
+			{
+				//breathTweener.cancel();
+				//breathDuration = breathTweener.x;
+				//breathScale = breathTweener.y;
+				breathTweener.cancel();
+			}
+			terrified = true;
+			breathScale = 0.3;
+			breathDuration = 0.5;				
+			if (scaleChanger) scaleChanger.cancel();
+			if (breathDirection == 1) breatheIn();
+			else breatheOut();		
+		}
+		
+		public function delayedTerrify(delay:Number = 0):void
+		{
+			if (delay == 0)
+			{
+				terrify();	
+			}
+			else
+			{
+				FP.alarm(delay, terrify);
+			}			
+		}
+		
+		public function unterrify():void
+		{
+			trace('unterrify');
+			breathScale = HEALTHY_BREATH_SCALE;
+			breathDuration = HEALTHY_BREATH_DURATION;				
+		}
+		
+		override public function scaredMoverCallback():void
+		{
+			if (mover) mover.cancel();
 			scared = false;
-			terrified = false;
 			trace('scared mover callback');
 			//mover.x = x;
 			if (y > floatLevel)
@@ -162,14 +214,14 @@ package
 			addTween(scaleChanger);
 			scaleChanger.tween(image.scale, 1 - breathScale, breathDuration, Ease.quadInOut);	
 			
-			if (breathScale > HEALTHY_BREATH_SCALE)
-				breathScale -= BREATH_SCALE_CHANGE;
-			else	
-				breathScale = HEALTHY_BREATH_SCALE;
-			if (breathDuration < HEALTHY_BREATH_DURATION)
-				breathDuration += BREATH_DURATION_CHANGE;	
-			else
-				breathDuration = HEALTHY_BREATH_DURATION;
+			//if (breathScale > HEALTHY_BREATH_SCALE)
+				//breathScale -= BREATH_SCALE_CHANGE;
+			//else	
+				//breathScale = HEALTHY_BREATH_SCALE;
+			//if (breathDuration < HEALTHY_BREATH_DURATION)
+				//breathDuration += BREATH_DURATION_CHANGE;	
+			//else
+				//breathDuration = HEALTHY_BREATH_DURATION;
 		}		
 		
 		public function floatUp():void
