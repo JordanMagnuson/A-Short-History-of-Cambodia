@@ -41,6 +41,9 @@ package
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;
 		public var scaleChanger:NumTween;
+		
+		public var scared:Boolean = false;
+		public var scaredMover:LinearMotion;
 	
 		public var phaseDelay:Number;
 		
@@ -65,9 +68,45 @@ package
 		}
 		
 		override public function update():void
-		{
+		{	
+			// Scare
+			if (FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < 20 && !scared)
+			{
+				scared = true;
+				scaredMover = new LinearMotion();
+				//if (floatY < 0) scaredMover = new LinearMotion();
+				//else scaredMover = new LinearMotion();
+				addTween(scaredMover);
+				//var duration:Number = FLOAT_DURATION + floatX * 3 / Global.PHASE_DELAY_DIVIDER;	
+				var duration:Number = 1;
+				var xChange:Number;
+				if (x > Global.mouseController.x)
+				{
+					xChange = 100;
+				}
+				else
+				{
+					xChange = -100;
+				}
+				if (x + xChange < halfWidth || x + xChange > FP.width - halfWidth)
+				{
+					xChange *= -1;
+				}
+				//if (newX > FP.width - halfWidth)
+				//{
+					//newX = FP.halfWidth - halfWidth;
+				//}
+				scaredMover.setMotion(x, y, x + xChange, y, 1);	
+			}
+			
 			// Position
-			if (mover) 
+			if (mover && scaredMover && scared)
+			{
+				trace('scared mover');
+				x = scaredMover.x;
+				y = mover.y;
+			}			
+			else if (mover) 
 			{
 				x = mover.x;
 				y = mover.y;
@@ -116,6 +155,8 @@ package
 		
 		public function floatUp():void
 		{
+			scared = false;
+			
 			floatXDirection = FP.choose(-1, 1);
 			floatX = MIN_FLOAT_X + FP.random * (MAX_FLOAT_X - MIN_FLOAT_X);
 			floatX = floatX * floatXDirection;
@@ -131,6 +172,10 @@ package
 			addTween(mover);
 			mover.setMotion(x, y, x + floatX, y + floatY, duration, Ease.quadInOut);
 			
+			//scaredMover = new LinearMotion(floatUpCallback);
+			//addTween(scaredMover);
+			//scaredMover.setMotion(x, y, x + floatX * 3, y + floatY, duration, Ease.quadInOut);
+			
 			//trace('floatX: ' + floatX);
 			//trace('duration: ' + duration);			
 			
@@ -144,12 +189,18 @@ package
 		
 		public function floatDown():void
 		{
+			scared = false;
+			
 			//var duration:Number = floatY / FLOAT_SPEED;
-			floatY *= -1;
+			if (floatY < 0) floatY *= -1;
 			var duration:Number = FLOAT_DURATION + floatX / Global.PHASE_DELAY_DIVIDER;
 			mover = new LinearMotion(floatDownCallback);
 			addTween(mover);
 			mover.setMotion(x, y, x + floatX, y + floatY, duration, Ease.quadInOut);	
+			
+			//scaredMover = new LinearMotion(floatDownCallback);
+			//addTween(scaredMover);
+			//scaredMover.setMotion(x, y, x + floatX * 3, y + floatY, duration, Ease.quadInOut);			
 			
 			// Angle tween
 			angleChanger = new AngleTween();

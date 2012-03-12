@@ -24,7 +24,7 @@ package
 			add(new Background);
 			
 			// Mouse controller
-			add(new MouseController);
+			add(Global.mouseController = new MouseController);
 			
 			// Waves
 			addWaveController();
