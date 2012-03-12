@@ -90,7 +90,7 @@ package
 			{
 				yDist = y - floatLevel;
 				hitSurface = true;
-			}
+			}			
 			var xDist:Number = 5;
 			var xDir:Number = FP.choose( -1, 1);
 			//var duration:Number;
@@ -134,6 +134,14 @@ package
 			gasper.sndHeartbeat = this.sndHeartbeat;
 			this.destroy();
 		}
+		
+		//public function changeToFloater():void
+		//{
+			//var floater:PersonFloating;
+			//FP.world.add(floater = new PersonFloating(x, y, image.angle, health, maxHealth, ));
+			//gasper.sndHeartbeat = this.sndHeartbeat;
+			//this.destroy();			
+		//}
 		
 		public function swimUpCallback():void
 		{

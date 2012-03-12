@@ -34,8 +34,8 @@ package
 		public var floatX:Number;
 		public var floatY:Number;
 		public var angleChange:Number;
-		public var breathDuration:Number = 1.5;
-		public var breathScale:Number = 0.4;
+		public var breathDuration:Number = 0.5;
+		public var breathScale:Number = 0.3;
 		
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;
@@ -182,21 +182,22 @@ package
 			floater.breathDuration = this.breathDuration;
 			floater.breathScale = this.breathScale;
 			floater.image.scale = this.image.scale;
-			if (breathDirection == 1)
-			{
-				trace('breathdirection = 1');
-				floater.breatheIn();
+			floater.terrify();
+			//if (breathDirection == 1)
+			//{
+				//trace('breathdirection = 1');
+				//floater.breatheIn();
 				//floater.scaleChanger.percent = this.scaleChanger.percent;
-			}
-			else 
-			{
-				floater.breatheOut();
+			//}
+			//else 
+			//{
+				//floater.breatheOut();
 				//floater.scaleChanger.percent = this.scaleChanger.percent;				
-			}
+			//}
 			
-			this.type = 'inactive';
-			this.visible = false;
-			//this.destroy();
+			//this.type = 'inactive';
+			//this.visible = false;
+			this.destroy();
 		}
 		
 		public function breatheIn(duration:Number = 0):void
