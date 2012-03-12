@@ -35,6 +35,7 @@ package
 		
 		override public function added():void
 		{
+			Global.peopleKilled += 1;
 			FP.alarm(0.5, playSound);
 			FP.alarm(1, startDrowning);
 		}
@@ -48,6 +49,7 @@ package
 		{
 			drowning = true;	
 			FP.alarm(1.5, releaseBubble);
+			Global.bloodOverlay.updateAlpha();			
 		}
 		
 		override public function update():void

@@ -40,7 +40,7 @@ package
 			sndWaves.loop();
 			
 			// Blood overlay
-			add(new BloodOverlay);
+			add(Global.bloodOverlay = new BloodOverlay);
 		}
 		
 		override public function update():void
