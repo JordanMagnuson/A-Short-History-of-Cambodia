@@ -4,6 +4,7 @@ package
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.FP;
 	import net.flashpunk.Sfx;
+	import net.flashpunk.tweens.motion.LinearMotion;
 	import net.flashpunk.tweens.sound.SfxFader;
 	
 	/**
@@ -17,6 +18,14 @@ package
 		public var maxHealth:Number;
 		public var floatLevel:Number;
 		public var breathDirection:Number = 1;
+		
+		public var scared:Boolean = false;
+		public var terrified:Boolean = false;
+		
+		public var scaredMover:LinearMotion;
+		
+		public var minY:Number;
+		public var maxY:Number;
 		
 		public var sndHeartbeat:Sfx = new Sfx(Assets.SND_HEARTBEAT);
 		public var heartbeatFader:SfxFader;		
@@ -32,6 +41,7 @@ package
 			this.health = health;
 			this.maxHealth = maxHealth;
 			this.floatLevel = Global.WATER_LINE + FP.random * Global.FLOAT_LEVEL_VARIATION;
+			//this.floatLevel = y;
 			
 			// Hitbox
 			image.centerOO();

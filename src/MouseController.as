@@ -40,6 +40,8 @@ package
 			handOpenMask.y = -handOpen.height / 2;
 			type = 'mouse_controller';
 			layer = -1000;	
+			
+			setHitbox(14, 14, 7, 7);	
 		}
 		
 		override public function added():void

@@ -23,8 +23,8 @@ package
 		//public const FLOAT_SPEED:Number = 14;
 		public static const FLOAT_DURATION:Number = 3;	// Used INSTEAD of FLOAT_SPEED, depending on which you want to be constant
 		
-		public static const HEALTHY_BREATH_DURATION:Number = 3;
-		public static const HEALTHY_BREATH_SCALE:Number = 0.1;
+		public static const HEALTHY_BREATH_DURATION:Number = 3;		// 3
+		public static const HEALTHY_BREATH_SCALE:Number = 0.1;		// 0.1
 		public static const BREATH_SCALE_CHANGE:Number = 0.01;
 		public static const BREATH_DURATION_CHANGE:Number = 0.1;		
 		
@@ -41,8 +41,7 @@ package
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;
 		public var scaleChanger:NumTween;
-		
-		public var scared:Boolean = false;
+	
 		public var scaredMover:LinearMotion;
 	
 		public var phaseDelay:Number;
@@ -52,6 +51,9 @@ package
 			super(x, y);
 			//type = 'person_floating';
 			this.phaseDelay = phaseDelay;
+			
+			this.maxY = y + 10;
+			this.minY = y - MAX_FLOAT_Y - 10;		
 		}
 		
 		override public function added():void
@@ -70,23 +72,16 @@ package
 		override public function update():void
 		{	
 			// Scare
-			if (FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < 20 && !scared)
+			if (Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.peopleKilled * 20 && !scared)
 			{
 				scared = true;
-				scaredMover = new LinearMotion();
-				//if (floatY < 0) scaredMover = new LinearMotion();
-				//else scaredMover = new LinearMotion();
+				terrified = true;
+				scaredMover = new LinearMotion(scaredMoverCallback);
 				addTween(scaredMover);
-				//var duration:Number = FLOAT_DURATION + floatX * 3 / Global.PHASE_DELAY_DIVIDER;	
-				var duration:Number = 1;
-				var xChange:Number;
-				if (x > Global.mouseController.x)
+				var xChange:Number = Global.MIN_SCARED_MOVE + FP.random * (Global.MAX_SCARED_MOVE - Global.MIN_SCARED_MOVE)
+				if (x < Global.mouseController.x)
 				{
-					xChange = 100;
-				}
-				else
-				{
-					xChange = -100;
+					xChange *= -1;
 				}
 				if (x + xChange < halfWidth || x + xChange > FP.width - halfWidth)
 				{
@@ -96,13 +91,23 @@ package
 				//{
 					//newX = FP.halfWidth - halfWidth;
 				//}
-				scaredMover.setMotion(x, y, x + xChange, y, 1);	
+				scaredMover.setMotionSpeed(x, y, x + xChange, y, Global.SCARE_MOVE_SPEED);	
+			}
+			
+			// Terrified
+			if (terrified)
+			{
+				terrified = false;
+				scaleChanger.cancel();
+				breathScale = 0.3;
+				breathDuration = 0.5;
+				if (breathDirection == 1) breatheIn();
+				else breatheOut();				
 			}
 			
 			// Position
 			if (mover && scaredMover && scared)
 			{
-				trace('scared mover');
 				x = scaredMover.x;
 				y = mover.y;
 			}			
@@ -126,6 +131,20 @@ package
 			super.update();
 		}
 		
+		public function scaredMoverCallback():void
+		{
+			mover.cancel();
+			scared = false;
+			terrified = false;
+			trace('scared mover callback');
+			//mover.x = x;
+			if (y > floatLevel)
+				floatUp();
+			else
+				floatDown();
+			//scared = false;
+		}
+		
 		public function breatheIn():void
 		{
 			//trace('breathe in');
@@ -136,7 +155,7 @@ package
 		}
 		
 		public function breatheOut():void
-		{
+		{			
 			//trace('breathe out');
 			breathDirection = -1;
 			scaleChanger = new NumTween(breatheIn);
@@ -166,6 +185,11 @@ package
 				floatX *= -1;
 			}
 			floatY = -1 * (MIN_FLOAT_Y + FP.random * (MAX_FLOAT_Y - MIN_FLOAT_Y));
+			if (y + floatY < minY)
+			{
+				trace('too high');
+				floatY = y - minY;
+			}
 			//var duration:Number = floatY / FLOAT_SPEED;
 			var duration:Number = FLOAT_DURATION + floatX / Global.PHASE_DELAY_DIVIDER;
 			mover = new LinearMotion(floatUpCallback);
@@ -193,6 +217,11 @@ package
 			
 			//var duration:Number = floatY / FLOAT_SPEED;
 			if (floatY < 0) floatY *= -1;
+			if (y + floatY > maxY)
+			{
+				trace('too low');
+				floatY = maxY - y;
+			}
 			var duration:Number = FLOAT_DURATION + floatX / Global.PHASE_DELAY_DIVIDER;
 			mover = new LinearMotion(floatDownCallback);
 			addTween(mover);
