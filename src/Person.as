@@ -20,6 +20,7 @@ package
 		
 		public var sndHeartbeat:Sfx = new Sfx(Assets.SND_HEARTBEAT);
 		public var heartbeatFader:SfxFader;		
+		public var sndHeartbeatSingle:Sfx = new Sfx(Assets.SND_HEARTBEAT_SINGLE);
 		
 		public function Person(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100, scale:Number = 1) 
 		{
@@ -36,7 +37,7 @@ package
 			image.centerOO();
 			setHitbox(image.width, image.height, image.originX, image.originY);	
 			
-			heartbeatFader = new SfxFader(sndHeartbeat, stopHearbeat);
+			heartbeatFader = new SfxFader(sndHeartbeat);
 		}
 		
 		override public function added():void

@@ -25,7 +25,8 @@ package
 		[Embed(source = "../assets/sounds.swf", symbol = "gabemiller74_breathofdeath.aif")] public static const SND_DEATH:Class;
 		[Embed(source="../assets/sounds.swf", symbol="robinhood76__01260_water_swimming_splashing_1_edited_fading.wav")] public static const SND_SPLASH_UP:Class;
 		[Embed(source = "../assets/sounds.swf", symbol = "unclesigmund_breath_edited_looping.wav")] public static const SND_GASPING:Class;
-		[Embed(source = "../assets/sounds.swf", symbol = "heartbeat_32424")] public static const SND_HEARTBEAT:Class;
+		[Embed(source = "../assets/sounds.swf", symbol = "heart_getting_faster_32424.wav")] public static const SND_HEARTBEAT:Class;
+		[Embed(source = "../assets/sounds.swf", symbol = "heartbeat_single_32424.wav")] public static const SND_HEARTBEAT_SINGLE:Class;
 		
 	}
 

@@ -69,15 +69,19 @@ package
 				return;
 			}
 			
+			//if (Global.personGrabbed.health > Global.MIN_HEALTH)
+			//{
+				//jerkRadius = 100000 / Math.pow(Global.personGrabbed.health / 10, 5);
+			//}
 			if (Global.personGrabbed.health > Global.FADE_HEALTH)
 			{
 				jerkRadius = 100000 / Math.pow(Global.personGrabbed.health / 10, 5);
 			}
 			else
 			{
-				jerkRadius -= 1;
+				jerkRadius -= 4;	// 1.8
 			}
-			trace('jerkRadius: ' + jerkRadius);
+			//trace('jerkRadius: ' + jerkRadius);
 			var jerkX:Number = FP.random * jerkRadius * FP.choose(1, -1);
 			var jerkY:Number = Math.sqrt(jerkRadius * jerkRadius - jerkX * jerkX) * -1;	// Always jerk upwards
 			mover = new LinearMotion(jerkBack);
@@ -103,7 +107,7 @@ package
 		
 		public function stopJerking():void
 		{				
-			trace('stop jerking');
+			//trace('stop jerking');
 			if (mover)
 				mover.cancel();
 			jerkAlarm.cancel();
@@ -182,7 +186,7 @@ package
 				{
 					if (Global.personGrabbed.health < Global.personGrabbed.maxHealth * 0.9)
 					{
-						trace('start jerking');
+						//trace('start jerking');
 						jerkAway();
 					}
 					else if (Global.personGrabbed.health > Global.MIN_HEALTH) 

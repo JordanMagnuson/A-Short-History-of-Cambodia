@@ -24,7 +24,7 @@ package
 		public static const FLOAT_DURATION:Number = 3;	// Used INSTEAD of FLOAT_SPEED, depending on which you want to be constant
 		
 		public static const HEALTHY_BREATH_DURATION:Number = 3;
-		public static const HEALTHY_BREATH_SCALE:Number = 0.2;
+		public static const HEALTHY_BREATH_SCALE:Number = 0.1;
 		public static const BREATH_SCALE_CHANGE:Number = 0.01;
 		public static const BREATH_DURATION_CHANGE:Number = 0.1;		
 		
