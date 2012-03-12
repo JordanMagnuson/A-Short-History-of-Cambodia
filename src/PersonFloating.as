@@ -2,7 +2,6 @@ package
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
-	import net.flashpunk.Tweener;
 	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.tweens.misc.AngleTween;
 	import net.flashpunk.tweens.misc.NumTween;
@@ -38,8 +37,7 @@ package
 		public var floatY:Number;
 		public var angleChange:Number;
 		public var breathDuration:Number = 3;
-		public var breathScale:Number = 0.1;	
-		public var breathTweener:LinearMotion;
+		public var breathScale:Number = 0.1;		
 		
 		public var mover:LinearMotion;
 		public var angleChanger:AngleTween;
@@ -48,6 +46,7 @@ package
 		public var phaseDelay:Number;
 		
 		public var unterrifyAlarm:Alarm;
+		public var resetBreath:Boolean = false;
 		
 		public function PersonFloating(x:Number = 0, y:Number = 0, phaseDelay:Number = 0) 
 		{
@@ -55,8 +54,8 @@ package
 			//type = 'person_floating';
 			this.phaseDelay = phaseDelay;
 			
-			this.maxY = y;
-			this.minY = y - MAX_FLOAT_Y;		
+			this.maxY = y + 10;
+			this.minY = y - MAX_FLOAT_Y - 10;		
 		}
 		
 		override public function added():void
@@ -85,18 +84,10 @@ package
 			// Unterrify
 			else if (terrified)
 			{
-				if (breathTweener && breathTweener.active) 
-				{
-					//breathTweener.cancel();
-					//breathDuration = breathTweener.x;
-					//breathScale = breathTweener.y;
-					breathTweener.cancel();
-				}
 				switch (Global.peopleKilled)
 				{
 					case 0:
-						breathTweener = new LinearMotion(unterrify);
-						breathTweener.setMotion(breathDuration, breathScale, HEALTHY_BREATH_DURATION, HEALTHY_BREATH_SCALE, 20);
+						unterrifyAlarm = new Alarm(5, unterrify);
 						break;
 					case 1:
 						unterrifyAlarm = new Alarm(8, unterrify);
@@ -108,7 +99,7 @@ package
 						unterrifyAlarm = new Alarm(15, unterrify);
 						break;											
 				}
-				addTween(breathTweener);	
+				addTween(unterrifyAlarm, true);	
 				terrified = false;
 			}
 			
@@ -130,19 +121,11 @@ package
 				image.angle = angleChanger.angle;
 			}
 			
-			// Breath
-			if (breathTweener && breathTweener.active)
-			{
-				breathDuration = breathTweener.x;
-				breathScale = breathTweener.y;
-			}
-			
 			// Scale
 			if (scaleChanger) 
 			{
 				image.scale = scaleChanger.value;
 			}			
-			
 			super.update();
 		}
 		
@@ -150,14 +133,8 @@ package
 		{
 			trace('terrify');
 			if (unterrifyAlarm) unterrifyAlarm.cancel();
-			if (breathTweener && breathTweener.active) 
-			{
-				//breathTweener.cancel();
-				//breathDuration = breathTweener.x;
-				//breathScale = breathTweener.y;
-				breathTweener.cancel();
-			}
 			terrified = true;
+			resetBreath = false;
 			breathScale = 0.3;
 			breathDuration = 0.5;				
 			if (scaleChanger) scaleChanger.cancel();
@@ -180,8 +157,9 @@ package
 		public function unterrify():void
 		{
 			trace('unterrify');
-			breathScale = HEALTHY_BREATH_SCALE;
-			breathDuration = HEALTHY_BREATH_DURATION;				
+			//breathScale = HEALTHY_BREATH_SCALE;
+			//breathDuration = HEALTHY_BREATH_DURATION;		
+			resetBreath = true;
 		}
 		
 		override public function scaredMoverCallback():void
@@ -214,14 +192,17 @@ package
 			addTween(scaleChanger);
 			scaleChanger.tween(image.scale, 1 - breathScale, breathDuration, Ease.quadInOut);	
 			
-			//if (breathScale > HEALTHY_BREATH_SCALE)
-				//breathScale -= BREATH_SCALE_CHANGE;
-			//else	
-				//breathScale = HEALTHY_BREATH_SCALE;
-			//if (breathDuration < HEALTHY_BREATH_DURATION)
-				//breathDuration += BREATH_DURATION_CHANGE;	
-			//else
-				//breathDuration = HEALTHY_BREATH_DURATION;
+			if (resetBreath)
+			{
+				if (breathScale > HEALTHY_BREATH_SCALE)
+					breathScale -= BREATH_SCALE_CHANGE;
+				else	
+					breathScale = HEALTHY_BREATH_SCALE;
+				if (breathDuration < HEALTHY_BREATH_DURATION)
+					breathDuration += BREATH_DURATION_CHANGE;	
+				else
+					breathDuration = HEALTHY_BREATH_DURATION;
+			}
 		}		
 		
 		public function floatUp():void
