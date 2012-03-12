@@ -8,6 +8,7 @@ package
 	{
 		// Misc
 		[Embed(source = "../assets/background.png")] public static const BACKGROUND:Class;
+		[Embed(source = "../assets/bubble.png")] public static const BUBBLE:Class;
 		
 		// Cursor images
 		[Embed(source = "../assets/hand_cursor_open.png")] public static const HAND_CURSOR_OPEN:Class;
