@@ -17,6 +17,7 @@ package
 		public function Bubble(x:Number = 0, y:Number = 0) 
 		{
 			super(x, y, spritemap);
+			type = 'bubble';
 			spritemap.add("go", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 3, false);
 			spritemap.centerOO();
 			spritemap.color = Colors.BLACK;

@@ -38,6 +38,8 @@ package
 		public static var mover:LinearMotion;
 		public static var lastY:Number = 0;
 		
+		public var lastBubbleRelease:Number = 1;
+		
 		public function MouseController() 
 		{
 			handOpen.centerOO();
@@ -76,6 +78,22 @@ package
 				stopJerking();
 				return;
 			}
+			
+			// Release Bubble
+			if (FP.random * jerkRadius > 2)
+			{
+				releaseBubble();
+			}
+			lastBubbleRelease *= -1;
+			//if (lastBubbleRelease > 500)
+			//{
+				//releaseBubble();
+			//}
+			//else
+			//{
+				//lastBubbleRelease += FP.elapsed * 1000;
+				//trace('lastBubbleRelease: ' + lastBubbleRelease);
+			//}
 			
 			//if (Global.personGrabbed.health > Global.MIN_HEALTH)
 			//{
@@ -229,8 +247,16 @@ package
 			lastY = y;
 			
 			super.update();
-		}				
+		}	
+		
+		public function releaseBubble():void
+		{
+			lastBubbleRelease = FP.timeFlag();
+			trace('lastBubbleRelease:' + lastBubbleRelease);
+			var xLoc:Number = x + FP.random * width * FP.choose(1, -1);
+			var yLoc:Number = y - height - FP.random * height;
+			FP.world.add(new Bubble(xLoc, yLoc));		
+		}		
 		
 	}
-
 }
