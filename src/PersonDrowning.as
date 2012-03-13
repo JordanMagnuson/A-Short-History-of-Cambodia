@@ -64,7 +64,6 @@ package
 		{
 			var personList:Array = [];
 
-			// Then, we populate the array with all existing Enemy objects!
 			world.getClass(PersonFloating, personList);
 
 			// Finally, we can loop through the array and call each Enemy's die() function.

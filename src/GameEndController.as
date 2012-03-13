@@ -25,6 +25,8 @@ package
 		
 		override public function added():void
 		{
+			fadeOut();
+			
 			trace('gameEndController added');
 			if (Global.ambientController.started) Global.ambientController.fadeOut(10);
 			FP.alarm(MUSIC_IN_DELAY, startMusic);
@@ -47,7 +49,7 @@ package
 		
 		public function fadeOut():void
 		{
-			FP.world.add(new FadeOut(null, Colors.BLACK, 10, 0));
+			FP.world.add(new FadeOut(GameOver, Colors.BLACK, 10, 0));
 		}
 		
 		public function placeGhosts():void

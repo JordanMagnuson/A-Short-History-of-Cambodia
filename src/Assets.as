@@ -39,6 +39,10 @@ package
 		
 		// Music
 		[Embed(source = "../assets/low_murderer.mp3")] public static const MUS_MURDERER:Class;
+		
+		// Game over
+		[Embed(source = "../assets/curtain.png")] public static const CURTAIN:Class;
+		[Embed(source = "../assets/end_screen.png")] public static const END_SCREEN:Class;
 	}
 
 }
