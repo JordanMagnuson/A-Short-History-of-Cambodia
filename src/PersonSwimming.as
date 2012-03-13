@@ -97,9 +97,10 @@ package
 		public function swimUp():void
 		{
 			var yDist:Number = 80;
-			if (yDist > (y - floatLevel - PersonGasping.GASP_FLOAT_DISTANCE))
+			//if (yDist > (y - floatLevel - PersonGasping.GASP_FLOAT_DISTANCE))
+			if (yDist > (y - floatLevel + PersonGasping.GASP_FLOAT_DISTANCE))
 			{
-				yDist = y - floatLevel;
+				yDist = y - floatLevel + PersonGasping.GASP_FLOAT_DISTANCE;
 				hitSurface = true;
 			}			
 			var xDist:Number = 5;

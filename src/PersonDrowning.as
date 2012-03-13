@@ -106,7 +106,7 @@ package
 			if (bubblesReleased < bubblesToRelease)
 			{
 				var xLoc:Number = x + FP.random * image.width / 2 * FP.choose(1, -1);
-				var yLoc:Number = y - FP.random * image.width;
+				var yLoc:Number = y - image.height - FP.random * image.height;
 				FP.world.add(new Bubble(xLoc, yLoc));		
 				FP.alarm(2, releaseBubble);
 				bubblesReleased += 1;

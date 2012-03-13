@@ -41,7 +41,7 @@ package
 					
 				if (health > 52)
 				{
-					if (!sndHeartbeat.playing) 
+					if (!sndHeartbeat.playing || sndHeartbeat.volume == 0) 
 					{
 						trace('loop heartbeat in');
 						var vol:Number = 1 - FP.scaleClamp(health, Global.MIN_HEALTH, Global.BASE_HEALTH, 0, 1);
@@ -70,7 +70,9 @@ package
 			}
 			else if (sndHeartbeat.playing)
 			{
+				//sndHeartbeat.stop();
 				heartbeatFader.fadeTo(0, 1);
+				sndDrowning.stop();
 			}
 			
 			super.update();

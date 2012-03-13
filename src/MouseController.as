@@ -206,7 +206,7 @@ package
 				//handClosed.alpha = 0.5;
 				
 				// Plunge sound
-				if (y > Global.personGrabbed.floatLevel && lastY < Global.personGrabbed.floatLevel && !sndPlunge.playing)
+				if (y > Global.personGrabbed.floatLevel + 20 && lastY < Global.personGrabbed.floatLevel + 20)
 				{
 					trace('plunge');
 					sndPlunge.play();
