@@ -40,8 +40,6 @@ package
 		override public function added():void
 		{
 			addTween(drowningFader);
-			Global.peopleKilled += 1;
-			Global.scareDistance = Global.peopleKilled * 20;
 			FP.alarm(0.5, playSound);
 			FP.alarm(1, startDrowning);
 		}
@@ -56,7 +54,10 @@ package
 			drowning = true;	
 			FP.alarm(1.5, releaseBubble);
 			FP.alarm(1.5, playDrowningSound);
-			Global.bloodOverlay.updateAlpha();		
+			Global.bloodOverlay.updateAlpha();	
+			Global.peopleKilled += 1;
+			Global.scareDistance = Global.peopleKilled * 20;		
+			Global.scareDistanceAfter = Global.scareDistance * 4;
 			FP.alarm(2, terrifyEveryone);
 		}
 		

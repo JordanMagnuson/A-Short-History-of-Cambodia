@@ -24,11 +24,12 @@ package
 		public static const BREATH_SCALE_MIN:Number = 0.8;
 		public static const BREATH_SCALE_MAX:Number = 1.2;
 		
-		public static const MIN_SCARED_MOVE:Number = 70;
-		public static const MAX_SCARED_MOVE:Number = 150;
+		public static const MIN_SCARED_MOVE:Number = 40;	// 70
+		public static const MAX_SCARED_MOVE:Number = 80;	// 150
 		public static const SCARE_MOVE_SPEED:Number = 125;
 		public static const DEAD_BEFORE_SCARE:Number = 1;	// 1
 		public static var scareDistance:Number = 20;
+		public static var scareDistanceAfter:Number = 80; 	// How far blocks will move to (from hand) once scared
 		
 		// Global variables
 		public static var t:Number = 0;							// Time elapsed since start of game

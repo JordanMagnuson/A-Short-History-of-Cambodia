@@ -179,15 +179,22 @@ package
 		
 		override public function scaredMoverCallback():void
 		{
-			if (mover) mover.cancel();
-			scared = false;
-			trace('scared mover callback');
-			//mover.x = x;
-			if (y > floatLevel)
-				floatUp();
+			if (FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistanceAfter)
+			{
+				scare();
+			}
 			else
-				floatDown();
-			//scared = false;
+			{		
+				if (mover) mover.cancel();
+				scared = false;
+				trace('scared mover callback');
+				//mover.x = x;
+				if (y > floatLevel)
+					floatUp();
+				else
+					floatDown();
+				//scared = false;
+			}
 		}
 		
 		public function breatheIn():void

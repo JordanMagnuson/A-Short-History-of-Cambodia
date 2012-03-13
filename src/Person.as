@@ -6,6 +6,7 @@ package
 	import net.flashpunk.Sfx;
 	import net.flashpunk.tweens.motion.LinearMotion;
 	import net.flashpunk.tweens.sound.SfxFader;
+	import net.flashpunk.utils.Ease;
 	
 	/**
 	 * ...
@@ -82,7 +83,7 @@ package
 			}
 			
 			scared = true;
-			scaredMover = new LinearMotion(scaredMoverCallback);
+			scaredMover = new LinearMotion(scaredMoverCallback, ONESHOT);
 			addTween(scaredMover);
 			var xChange:Number = Global.MIN_SCARED_MOVE + FP.random * (Global.MAX_SCARED_MOVE - Global.MIN_SCARED_MOVE)
 			if (x < Global.mouseController.x)
@@ -93,7 +94,7 @@ package
 			{
 				xChange *= -1;
 			}
-			scaredMover.setMotionSpeed(x, y, x + xChange, y, Global.SCARE_MOVE_SPEED);	
+			scaredMover.setMotionSpeed(x, y, x + xChange, y, Global.SCARE_MOVE_SPEED, Ease.quadInOut);	
 		}
 		
 		public function scaredMoverCallback():void

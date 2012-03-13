@@ -122,16 +122,23 @@ package
 		
 		override public function scaredMoverCallback():void
 		{
-			mover.cancel();
-			scared = false;
-			terrified = false;
-			trace('scared mover callback');
-			//mover.x = x;
-			if (y > floatLevel)
-				floatUp();
+			if (FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistanceAfter)
+			{
+				scare();
+			}
 			else
-				floatDown();
-			//scared = false;
+			{
+				mover.cancel();
+				scared = false;
+				terrified = false;
+				trace('scared mover callback');
+				//mover.x = x;
+				if (y > floatLevel)
+					floatUp();
+				else
+					floatDown();
+				//scared = false;
+			}
 		}			
 		
 		public function getFloaterDelay():Number
@@ -143,7 +150,9 @@ package
 			{
 				for each (var p:PersonFloating in floatingList)
 				{
-					var percent:Number = p.mover.percent;
+					var percent:Number;
+					if (p.mover) percent = p.mover.percent;
+					else percent = 0;
 					var phaseDelay:Number;
 					//p.image.scale = 5;
 					trace('percent: ' + percent);
