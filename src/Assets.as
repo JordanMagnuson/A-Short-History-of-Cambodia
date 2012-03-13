@@ -31,6 +31,9 @@ package
 		[Embed(source = "../assets/sounds.swf", symbol = "water_plunge_17755.wav")] public static const SND_WATER_PLUNGE:Class;
 		[Embed(source = "../assets/sounds.swf", symbol = "drowning_45521.wav")] public static const SND_DROWNING:Class;
 		
+		[Embed(source = "../assets/sounds.swf", symbol = "hell_01_33703.wav")] public static const SND_HELL_01:Class;
+		[Embed(source = "../assets/sounds.swf", symbol = "hell_02_38965.wav")] public static const SND_HELL_02:Class;
+		[Embed(source = "../assets/sounds.swf", symbol = "hell_03_39222.wav")] public static const SND_HELL_03:Class;
 	}
 
 }
