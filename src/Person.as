@@ -21,6 +21,8 @@ package
 		
 		public var scared:Boolean = false;
 		public var terrified:Boolean = false;
+		public var shaking:Boolean = false;
+		public var shakeAmount:Number = 0;
 		
 		public var scaredMover:LinearMotion;
 		
@@ -74,19 +76,24 @@ package
 		
 		public function scare():void
 		{
-				scared = true;
-				scaredMover = new LinearMotion(scaredMoverCallback);
-				addTween(scaredMover);
-				var xChange:Number = Global.MIN_SCARED_MOVE + FP.random * (Global.MAX_SCARED_MOVE - Global.MIN_SCARED_MOVE)
-				if (x < Global.mouseController.x)
-				{
-					xChange *= -1;
-				}
-				if (x + xChange < halfWidth || x + xChange > FP.width - halfWidth)
-				{
-					xChange *= -1;
-				}
-				scaredMover.setMotionSpeed(x, y, x + xChange, y, Global.SCARE_MOVE_SPEED);	
+			if (Global.peopleKilled >= 3 && !Global.ambientController.started)
+			{
+				Global.ambientController.start();
+			}
+			
+			scared = true;
+			scaredMover = new LinearMotion(scaredMoverCallback);
+			addTween(scaredMover);
+			var xChange:Number = Global.MIN_SCARED_MOVE + FP.random * (Global.MAX_SCARED_MOVE - Global.MIN_SCARED_MOVE)
+			if (x < Global.mouseController.x)
+			{
+				xChange *= -1;
+			}
+			if (x + xChange < halfWidth || x + xChange > FP.width - halfWidth)
+			{
+				xChange *= -1;
+			}
+			scaredMover.setMotionSpeed(x, y, x + xChange, y, Global.SCARE_MOVE_SPEED);	
 		}
 		
 		public function scaredMoverCallback():void

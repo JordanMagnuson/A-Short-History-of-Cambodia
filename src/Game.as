@@ -38,7 +38,7 @@ package
 			
 			// Sound
 			sndWaves.loop();
-			add(new AmbientController);
+			add(Global.ambientController = new AmbientController);
 			
 			// Blood overlay
 			add(Global.bloodOverlay = new BloodOverlay);

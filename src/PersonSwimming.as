@@ -57,6 +57,10 @@ package
 				x = mover.x;
 				y = mover.y;
 			}			
+			shakeAmount = 1 - FP.scaleClamp(health, Global.MIN_HEALTH, maxHealth, 0, 1);
+			x += FP.choose(shakeAmount, -shakeAmount);
+			y += FP.choose(shakeAmount, -shakeAmount);			
+			
 			super.update();
 		}
 		
@@ -132,6 +136,7 @@ package
 			var gasper:PersonGasping;
 			FP.world.add(gasper = new PersonGasping(x, y, image.angle, health, maxHealth));
 			gasper.sndHeartbeat = this.sndHeartbeat;
+			gasper.shakeAmount = this.shakeAmount;
 			this.destroy();
 		}
 		

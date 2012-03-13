@@ -92,6 +92,8 @@ package
 				x = mover.x;
 				y = mover.y;
 			}	
+			x += FP.choose(shakeAmount, -shakeAmount);
+			y += FP.choose(shakeAmount, -shakeAmount);
 			
 			if (angleChanger) 
 			{
@@ -187,6 +189,7 @@ package
 			floater.breathScale = this.breathScale;
 			floater.image.scale = this.image.scale;
 			floater.terrify();
+			floater.shakeAmount = this.shakeAmount;
 			//if (breathDirection == 1)
 			//{
 				//trace('breathdirection = 1');

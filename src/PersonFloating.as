@@ -94,9 +94,19 @@ package
 						break;			
 					case 2:
 						unterrifyAlarm = new Alarm(12, unterrify);
-						break;		
-					default:
+						break;	
+					case 3:
 						unterrifyAlarm = new Alarm(15, unterrify);
+						break;	
+					case 4:
+						unterrifyAlarm = new Alarm(20, unterrify);
+						break;							
+					case 7:
+						// Never unterrify
+						//unterrifyAlarm = new Alarm(20, unterrify);
+						break;								
+					default:
+						unterrifyAlarm = new Alarm(30, unterrify);
 						break;											
 				}
 				addTween(unterrifyAlarm, true);	
@@ -114,6 +124,8 @@ package
 				x = mover.x;
 				y = mover.y;
 			}
+			x += FP.choose(shakeAmount, -shakeAmount);
+			y += FP.choose(shakeAmount, -shakeAmount);				
 			
 			// Angle
 			if (angleChanger) 
@@ -134,6 +146,8 @@ package
 			trace('terrify');
 			if (unterrifyAlarm) unterrifyAlarm.cancel();
 			terrified = true;
+			shaking = true;
+			shakeAmount = FP.scaleClamp(Global.peopleKilled, 0, Global.NUMBER_OF_PEOPLE, 0, 1);
 			resetBreath = false;
 			breathScale = 0.3;
 			breathDuration = 0.5;				
@@ -160,6 +174,7 @@ package
 			//breathScale = HEALTHY_BREATH_SCALE;
 			//breathDuration = HEALTHY_BREATH_DURATION;		
 			resetBreath = true;
+			shaking = false;
 		}
 		
 		override public function scaredMoverCallback():void
@@ -202,6 +217,12 @@ package
 					breathDuration += BREATH_DURATION_CHANGE;	
 				else
 					breathDuration = HEALTHY_BREATH_DURATION;
+				
+				// Reset shaking as well
+				if (shakeAmount > 0)
+					shakeAmount -= 0.05;
+				else
+					shakeAmount = 0;
 			}
 		}		
 		
