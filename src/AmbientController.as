@@ -62,7 +62,7 @@ package
 		public function fadeOut(duration:Number = 10):void
 		{
 			if (soundFader) soundFader.cancel();
-			soundFader = new SfxFader(currentSound, null, ONESHOT);
+			soundFader = new SfxFader(currentSound, destroy, ONESHOT);
 			addTween(soundFader);
 			soundFader.fadeTo(0, duration); 				
 		}

@@ -77,10 +77,10 @@ package
 		
 		public function scare():void
 		{
-			if (Global.peopleKilled >= 3 && !Global.ambientController.started)
-			{
-				Global.ambientController.start();
-			}
+			//if (Global.peopleKilled >= 3 && !Global.ambientController.started)
+			//{
+				//Global.ambientController.start();
+			//}
 			
 			scared = true;
 			scaredMover = new LinearMotion(scaredMoverCallback, ONESHOT);

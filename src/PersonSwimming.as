@@ -11,7 +11,7 @@ package
 	 */
 	public class PersonSwimming extends Person
 	{	
-		public static const SWIM_SPEED:Number = 80;
+		public static const SWIM_SPEED:Number = 70;
 		
 		public var hitSurface:Boolean = false;
 		public var mover:LinearMotion;

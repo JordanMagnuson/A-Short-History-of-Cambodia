@@ -58,6 +58,12 @@ package
 			Global.scareDistance = Global.peopleKilled * 20;		
 			Global.scareDistanceAfter = Global.scareDistance * 4;
 			FP.alarm(2, terrifyEveryone);
+			
+			// Ambient sounds
+			if (Global.peopleKilled >= 1 && !Global.ambientController.started)
+			{
+				Global.ambientController.start();
+			}			
 		}
 		
 		public function terrifyEveryone():void

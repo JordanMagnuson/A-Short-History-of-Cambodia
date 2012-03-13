@@ -1,6 +1,7 @@
 package  
 {
 	import net.flashpunk.Sfx;
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.tweens.misc.AngleTween;
 	import net.flashpunk.tweens.misc.NumTween;
 	import net.flashpunk.tweens.motion.LinearMotion;
@@ -47,6 +48,8 @@ package
 		public var sndSplashUp:Sfx = new Sfx(Assets.SND_SPLASH_UP);
 		public var sndGasping:Sfx = new Sfx(Assets.SND_GASPING);
 		public var sndGaspingFader:SfxFader;
+		
+		public var floatDelayAlarm:Alarm;
 		
 		public function PersonGasping(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
@@ -114,7 +117,8 @@ package
 				healthyAgain = true;
 				health = maxHealth;
 				var floatDelay:Number = getFloaterDelay();
-				FP.alarm(floatDelay, changeToFloater);
+				floatDelayAlarm = new Alarm(floatDelay, changeToFloater, ONESHOT);
+				addTween(floatDelayAlarm, true);
 			}
 			
 			super.update();
@@ -194,6 +198,7 @@ package
 			sndGaspingFader.fadeTo(0, 10, Ease.quadIn);
 			
 			var floater:PersonFloating = FP.world.add(new PersonFloating(x, y)) as PersonFloating;
+			trace('personGasping add new personFloating');
 			floater.breathDuration = this.breathDuration;
 			floater.breathScale = this.breathScale;
 			floater.image.scale = this.image.scale;
@@ -214,6 +219,12 @@ package
 			//this.type = 'inactive';
 			//this.visible = false;
 			this.destroy();
+		}
+		
+		override public function destroy():void
+		{
+			if (floatDelayAlarm) floatDelayAlarm.cancel();
+			super.destroy();
 		}
 		
 		public function breatheIn(duration:Number = 0):void

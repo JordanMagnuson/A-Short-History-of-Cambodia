@@ -24,9 +24,7 @@ package
 		}
 		
 		override public function added():void
-		{
-			fadeOut();
-			
+		{	
 			trace('gameEndController added');
 			if (Global.ambientController.started) Global.ambientController.fadeOut(10);
 			FP.alarm(MUSIC_IN_DELAY, startMusic);

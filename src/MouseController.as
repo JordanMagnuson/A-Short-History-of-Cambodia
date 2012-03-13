@@ -48,7 +48,7 @@ package
 			type = 'mouse_controller';
 			layer = -1000;	
 			
-			setHitbox(14, 14, 7, 7);	
+			setHitbox(16, 16, 8, 8);	
 		}
 		
 		override public function added():void
@@ -194,7 +194,7 @@ package
 				//handClosed.alpha = 0.5;
 				
 				// Plunge sound
-				if (y > Global.personGrabbed.floatLevel + 20 && lastY < Global.personGrabbed.floatLevel + 20)
+				if (y > Global.personGrabbed.floatLevel + 25 && lastY < Global.personGrabbed.floatLevel + 25)
 				{
 					trace('plunge');
 					sndPlunge.play();

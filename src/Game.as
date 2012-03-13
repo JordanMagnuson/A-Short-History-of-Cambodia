@@ -21,7 +21,7 @@ package
 		override public function begin():void
 		{
 			// Fade In
-			//add(new FadeIn(Colors.BLACK, 10, 5));
+			add(new FadeIn(Colors.BLACK, 10, 5));
 			
 			// Background
 			add(new Background);
@@ -66,6 +66,7 @@ package
 			{ 
 				var yPos:Number = Global.WATER_LINE + FP.random * Global.FLOAT_LEVEL_VARIATION;
 				phaseDelay = xPos / Global.PHASE_DELAY_DIVIDER;
+				trace('game add personFloating');
 				add(new PersonFloating(xPos, yPos, phaseDelay));
 				
 			}			
