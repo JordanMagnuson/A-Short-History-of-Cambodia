@@ -27,7 +27,8 @@ package
 		public var handOpenMask:Pixelmask = new Pixelmask(Assets.HAND_CURSOR_OPEN);
 		
 		public static var sndGrab:Sfx = new Sfx(Assets.SND_GRAB);
-		public static var sndSplash:Sfx = new Sfx(Assets.SND_SPLASH_UP);
+		public static var sndSplashUp:Sfx = new Sfx(Assets.SND_SPLASH_UP);
+		public static var sndSplashDown:Sfx = new Sfx(Assets.SND_SPLASH_DOWN);
 		public static var sndPlunge:Sfx = new Sfx(Assets.SND_WATER_PLUNGE);
 		
 		public static var preparingToJerk:Boolean = false;
@@ -180,9 +181,18 @@ package
 				
 				if (Global.personGrabbed)
 				{
-					var swimmer:PersonSwimming;
-					FP.world.add(swimmer = new PersonSwimming(Global.personGrabbed.x, Global.personGrabbed.y, Global.personGrabbed.image.angle, Global.personGrabbed.health, Global.personGrabbed.maxHealth));
-					swimmer.sndHeartbeat = Global.personGrabbed.sndHeartbeat;
+					// Fall
+					if (y <= Global.personGrabbed.floatLevel)
+					{
+						FP.world.add(new PersonFalling(Global.personGrabbed.x, Global.personGrabbed.y, Global.personGrabbed.image.angle, Global.personGrabbed.health, Global.personGrabbed.maxHealth));
+					}
+					// Swim
+					else
+					{
+						var swimmer:PersonSwimming;
+						FP.world.add(swimmer = new PersonSwimming(Global.personGrabbed.x, Global.personGrabbed.y, Global.personGrabbed.image.angle, Global.personGrabbed.health, Global.personGrabbed.maxHealth));
+						swimmer.sndHeartbeat = Global.personGrabbed.sndHeartbeat;
+					}
 					Global.personGrabbed.destroy();
 					Global.personGrabbed = null;
 				}
@@ -196,11 +206,12 @@ package
 				//handClosed.alpha = 0.5;
 				
 				// Plunge sound
-				if (y > WATER_LINE && lastY < WATER_LINE && !sndPlunge.playing)
+				if (y > Global.personGrabbed.floatLevel && lastY < Global.personGrabbed.floatLevel && !sndPlunge.playing)
 				{
 					trace('plunge');
 					sndPlunge.play();
-					sndSplash.play();
+					sndSplashDown.play();
+					sndSplashUp.play();
 				}				
 			}				
 			else if (overlapPerson)

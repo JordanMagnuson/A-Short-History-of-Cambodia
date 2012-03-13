@@ -59,7 +59,7 @@ package
 		{
 			floatDown();
 			breatheIn(0.1);
-			sndSplashUp.play(0.5);
+			sndSplashUp.play();
 			
 			// heartbeat
 			heartbeatFader = new SfxFader(sndHeartbeat, stopHearbeat);
@@ -161,18 +161,18 @@ package
 						trace('p to the left');
 						trace('p.floatY: ' + p.floatY);
 						if (p.floatY < 0)
-							phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION;
+							phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION;
 						else
-							phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION;
+							phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - percent) * PersonFloating.FLOAT_DURATION;
 					}
 					else
 					{
 						trace('p to the right');
 						trace('p.floatY: ' + p.floatY);					
 						if (p.floatY < 0)
-							phaseDelay = (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
+							phaseDelay = (1 - percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
 						else
-							phaseDelay = (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
+							phaseDelay = (1 - percent) * PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
 						while (phaseDelay < 0)
 						{
 							phaseDelay += (PersonFloating.FLOAT_DURATION * 2);
