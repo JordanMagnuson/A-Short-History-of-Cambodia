@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Sfx;
 	import net.flashpunk.tweens.misc.AngleTween;
 	import net.flashpunk.FP;
+	import net.flashpunk.tweens.sound.SfxFader;
 	
 	/**
 	 * ...
@@ -23,6 +24,8 @@ package
 		public var bubblesReleased:Number = 0;
 		
 		public var sndDeath:Sfx = new Sfx(Assets.SND_DEATH);
+		public var sndDrowning:Sfx = new Sfx(Assets.SND_DROWNING);
+		public var drowningFader:SfxFader;
 		
 		public function PersonDrowning(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100, scale:Number = 1) 
 		{
@@ -31,10 +34,12 @@ package
 			type = 'person_drowning';
 			angleDirection = FP.choose( -1, 1);
 			bubblesToRelease = MIN_BUBBLES + FP.rand(MAX_BUBBLES - MIN_BUBBLES + 1);
+			drowningFader = new SfxFader(sndDrowning);
 		}
 		
 		override public function added():void
 		{
+			addTween(drowningFader);
 			Global.peopleKilled += 1;
 			Global.scareDistance = Global.peopleKilled * 20;
 			FP.alarm(0.5, playSound);
@@ -50,6 +55,7 @@ package
 		{
 			drowning = true;	
 			FP.alarm(1.5, releaseBubble);
+			FP.alarm(1.5, playDrowningSound);
 			Global.bloodOverlay.updateAlpha();		
 			FP.alarm(2, terrifyEveryone);
 		}
@@ -86,6 +92,12 @@ package
 			}
 			
 			super.update();
+		}
+		
+		public function playDrowningSound():void
+		{
+			sndDrowning.play(0.5);
+			drowningFader.fadeTo(0, 6);			
 		}
 		
 		public function releaseBubble():void

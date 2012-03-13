@@ -13,10 +13,20 @@ package
 		public var fading:Boolean = false;
 		public var dead:Boolean = false;
 		
+		public var sndDrowning:Sfx = new Sfx(Assets.SND_DROWNING);
+		public var drowningFader:SfxFader;
+		
 		public function PersonGrabbed(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
 			super(x, y, angle, health, maxHealth);
 			visible = false;
+			drowningFader = new SfxFader(sndDrowning);
+		}
+		
+		override public function added():void
+		{
+			addTween(drowningFader);
+			super.added();
 		}
 		
 		override public function update():void
@@ -36,7 +46,9 @@ package
 						trace('loop heartbeat in');
 						var vol:Number = 1 - FP.scaleClamp(health, Global.MIN_HEALTH, Global.BASE_HEALTH, 0, 1);
 						sndHeartbeat.loop(vol);
+						sndDrowning.loop(vol);
 						heartbeatFader.fadeTo(1, 6);
+						drowningFader.fadeTo(1, 6);
 					}
 				}
 				else if (health > Global.MIN_HEALTH && !fading)
@@ -45,6 +57,7 @@ package
 					trace('stop heartbeat');
 					fading = true;
 					sndHeartbeat.stop();
+					sndDrowning.stop();
 					sndHeartbeatSingle.play();					
 				}
 				else if (health <= Global.MIN_HEALTH && !dead)
@@ -66,10 +79,12 @@ package
 		override public function removed():void
 		{
 			heartbeatFader.cancel();
+			drowningFader.cancel();
 			if (sndHeartbeat.playing)
 			{
 				sndHeartbeat.stop();
 			}
+			if (sndDrowning.playing) sndDrowning.stop();
 			super.removed();
 		}		
 		

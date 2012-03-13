@@ -28,6 +28,8 @@ package
 		[Embed(source = "../assets/sounds.swf", symbol = "unclesigmund_breath_edited_looping.wav")] public static const SND_GASPING:Class;
 		[Embed(source = "../assets/sounds.swf", symbol = "heart_getting_faster_32424.wav")] public static const SND_HEARTBEAT:Class;
 		[Embed(source = "../assets/sounds.swf", symbol = "heartbeat_single_32424.wav")] public static const SND_HEARTBEAT_SINGLE:Class;
+		[Embed(source = "../assets/sounds.swf", symbol = "water_plunge_17755.wav")] public static const SND_WATER_PLUNGE:Class;
+		[Embed(source = "../assets/sounds.swf", symbol = "drowning_45521.wav")] public static const SND_DROWNING:Class;
 		
 	}
 

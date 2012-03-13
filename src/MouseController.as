@@ -20,11 +20,15 @@ package
 		public static const MIN_JERK_DIST:Number = 0;
 		public static const MAX_JERK_DIST:Number = 15;
 		
+		public static const WATER_LINE:Number = Global.WATER_LINE + Global.FLOAT_LEVEL_VARIATION;
+		
 		public var handOpen:Image = new Image(Assets.HAND_CURSOR_OPEN);
 		public var handClosed:Image = new Image(Assets.HAND_CURSOR_CLOSED);
 		public var handOpenMask:Pixelmask = new Pixelmask(Assets.HAND_CURSOR_OPEN);
 		
 		public static var sndGrab:Sfx = new Sfx(Assets.SND_GRAB);
+		public static var sndSplash:Sfx = new Sfx(Assets.SND_SPLASH_UP);
+		public static var sndPlunge:Sfx = new Sfx(Assets.SND_WATER_PLUNGE);
 		
 		public static var preparingToJerk:Boolean = false;
 		public static var jerking:Boolean = false;
@@ -32,6 +36,7 @@ package
 		public static var jerkRadius:Number;
 		public static var jerkAlarm:Alarm;
 		public static var mover:LinearMotion;
+		public static var lastY:Number = 0;
 		
 		public function MouseController() 
 		{
@@ -125,6 +130,7 @@ package
 		
 		override public function update():void
 		{
+			// Position
 			if (jerking && mover)
 			{
 				//trace('mover.x: ' + mover.x);
@@ -170,6 +176,14 @@ package
 				graphic = handClosed;
 				handClosed.alpha = 1;
 				//handClosed.alpha = 0.5;
+				
+				// Plunge sound
+				if (y > WATER_LINE && lastY < WATER_LINE && !sndPlunge.playing)
+				{
+					trace('plunge');
+					sndPlunge.play();
+					sndSplash.play();
+				}				
 			}				
 			else if (overlapPerson)
 			{
@@ -210,6 +224,9 @@ package
 			{
 				stopJerking();
 			}
+			
+			// Last y
+			lastY = y;
 			
 			super.update();
 		}				

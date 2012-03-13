@@ -59,7 +59,7 @@ package
 		{
 			floatDown();
 			breatheIn(0.1);
-			sndSplashUp.play();
+			sndSplashUp.play(0.5);
 			
 			// heartbeat
 			heartbeatFader = new SfxFader(sndHeartbeat, stopHearbeat);
@@ -77,7 +77,7 @@ package
 		{
 			
 			// Scare
-			if (Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance && !scared)
+			if (FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance && !scared)
 			{
 				scare();
 			}					
@@ -137,39 +137,43 @@ package
 			trace('get floater delay');
 			var floatingList:Array = [];
 			FP.world.getClass(PersonFloating, floatingList);
-			for each (var p:PersonFloating in floatingList)
+			if (floatingList.length > 0) 
 			{
-				var percent:Number = p.mover.percent;
-				var phaseDelay:Number;
-				//p.image.scale = 5;
-				trace('percent: ' + percent);
-				if (p.x < x)
+				for each (var p:PersonFloating in floatingList)
 				{
-					trace('p to the left');
-					trace('p.floatY: ' + p.floatY);
-					if (p.floatY < 0)
-						phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION;
-					else
-						phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION;
-				}
-				else
-				{
-					trace('p to the right');
-					trace('p.floatY: ' + p.floatY);					
-					if (p.floatY < 0)
-						phaseDelay = (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
-					else
-						phaseDelay = (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
-					while (phaseDelay < 0)
+					var percent:Number = p.mover.percent;
+					var phaseDelay:Number;
+					//p.image.scale = 5;
+					trace('percent: ' + percent);
+					if (p.x < x)
 					{
-						phaseDelay += (PersonFloating.FLOAT_DURATION * 2);
-						trace('adding 4 seconds');
+						trace('p to the left');
+						trace('p.floatY: ' + p.floatY);
+						if (p.floatY < 0)
+							phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION;
+						else
+							phaseDelay = (x - p.x) / Global.PHASE_DELAY_DIVIDER + (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION;
 					}
+					else
+					{
+						trace('p to the right');
+						trace('p.floatY: ' + p.floatY);					
+						if (p.floatY < 0)
+							phaseDelay = (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION + PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
+						else
+							phaseDelay = (1 - p.mover.percent) * PersonFloating.FLOAT_DURATION - (p.x - x) / Global.PHASE_DELAY_DIVIDER;
+						while (phaseDelay < 0)
+						{
+							phaseDelay += (PersonFloating.FLOAT_DURATION * 2);
+							trace('adding 4 seconds');
+						}
+					}	
+					break;
 				}	
-				break;
-			}	
-			trace('phasedelay: ' + phaseDelay);
-			return(phaseDelay + PersonFloating.FLOAT_DURATION * 4);
+				trace('phasedelay: ' + phaseDelay);
+				return(phaseDelay + PersonFloating.FLOAT_DURATION * 4);
+			}
+			return 0;
 		}
 		
 		public function changeToFloater():void

@@ -26,7 +26,7 @@ package
 		override public function update():void
 		{
 			// Scare
-			if (canBeScared && Global.peopleKilled >= Global.DEAD_BEFORE_SCARE && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance && !scared)
+			if (canBeScared && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance && !scared)
 			{
 				scare();
 			}			
