@@ -101,7 +101,9 @@ package
 					case 4:
 						unterrifyAlarm = new Alarm(20, unterrify);
 						break;							
-					case 7:
+					case 5:
+					case 6:
+					case 7:						
 						// Never unterrify
 						//unterrifyAlarm = new Alarm(20, unterrify);
 						break;								
@@ -111,6 +113,11 @@ package
 				}
 				addTween(unterrifyAlarm, true);	
 				terrified = false;
+			}
+			
+			if (!scared && Global.peopleKilled >= Global.DEAD_BEFORE_ALWAYS_SACRED)
+			{
+				scare();
 			}
 			
 			// Position

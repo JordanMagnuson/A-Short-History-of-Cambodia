@@ -28,6 +28,7 @@ package
 		public static const MAX_SCARED_MOVE:Number = 80;	// 150
 		public static const SCARE_MOVE_SPEED:Number = 125;
 		public static const DEAD_BEFORE_SCARE:Number = 1;	// 1
+		public static const DEAD_BEFORE_ALWAYS_SACRED:Number = 5;
 		public static var scareDistance:Number = 20;
 		public static var scareDistanceAfter:Number = 80; 	// How far blocks will move to (from hand) once scared
 		
