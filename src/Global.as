@@ -9,7 +9,7 @@ package
 		// Constants
 		public static const WATER_LINE:Number = 100;		
 		public static const FLOAT_LEVEL_VARIATION:Number = 40;
-		public static const NUMBER_OF_PEOPLE:Number = 8;
+		public static const NUMBER_OF_PEOPLE:Number = 4;		// 8
 		public static const PHASE_DELAY_DIVIDER:Number = 200;	// for each pixel to the right, a person's wave phase is delayed by 1/200 of a second
 		
 		public static const PERSON_WIDTH:Number = 10;
@@ -18,7 +18,7 @@ package
 		public static const HEALTH_VARIATION:Number = 25;
 		public static const MIN_HEALTH:Number = 50;
 		public static const FADE_HEALTH:Number = 60; 					// Health at which person starts to fade (lose heartbeat strength, etc.)
-		public static const HEALTH_LOSS_RATE:Number = 0.05; 			// Health lost per second while under water. 0.05
+		public static const HEALTH_LOSS_RATE:Number = 1; 			// Health lost per second while under water. 0.05
 		public static const HEALTH_GAIN_RATE:Number = 0.1; 	
 		
 		public static const BREATH_SCALE_MIN:Number = 0.8;
@@ -45,6 +45,7 @@ package
 		public static var personGrabbed:Person;
 		public static var bloodOverlay:BloodOverlay;
 		public static var ambientController:AmbientController;
+		public static var gameEndController:GameEndController;
 	}
 
 }

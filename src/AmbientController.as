@@ -59,6 +59,13 @@ package
 			playSound();
 		}
 		
+		public function fadeOut(duration:Number = 10):void
+		{
+			if (soundFader) soundFader.cancel();
+			soundFader = new SfxFader(currentSound, null, ONESHOT);
+			addTween(soundFader);
+			soundFader.fadeTo(0, duration); 				
+		}
 		
 		public function playSound():void
 		{
@@ -83,6 +90,11 @@ package
 			soundFader = new SfxFader(currentSound, playSound, ONESHOT);
 			addTween(soundFader);
 			soundFader.fadeTo(0, FADE_IN_DURATION); 		
+		}
+		
+		public function destroy():void
+		{
+			FP.world.remove(this);
 		}
 		
 	}

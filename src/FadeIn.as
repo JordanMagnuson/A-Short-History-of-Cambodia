@@ -40,7 +40,7 @@ package
 			// create a rectangle the size of the screen.
 			_canvas.fill(new Rectangle(0, 0, FP.width, FP.height), color, 1);
 			super(0, 0, _canvas);
-			layer = -1000;
+			layer = -9000;
 			_canvas.scrollX = 0;
 			_canvas.scrollY = 0;
 			
@@ -83,7 +83,7 @@ package
 		{
 			_alphaTween = new ColorTween(destroy);
 			addTween(_alphaTween);		
-			_alphaTween.tween(_time, _color, 0x000000, 1, 0, Ease.quadInOut);	
+			_alphaTween.tween(_time, _color, 0x000000, 1, 0);	
 			_bufferComplete = true;
 		}
 		

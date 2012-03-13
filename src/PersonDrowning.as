@@ -34,12 +34,10 @@ package
 			type = 'person_drowning';
 			angleDirection = FP.choose( -1, 1);
 			bubblesToRelease = MIN_BUBBLES + FP.rand(MAX_BUBBLES - MIN_BUBBLES + 1);
-			drowningFader = new SfxFader(sndDrowning);
 		}
 		
 		override public function added():void
 		{
-			addTween(drowningFader);
 			FP.alarm(0.5, playSound);
 			FP.alarm(1, startDrowning);
 		}
@@ -56,6 +54,7 @@ package
 			FP.alarm(1.5, playDrowningSound);
 			Global.bloodOverlay.updateAlpha();	
 			Global.peopleKilled += 1;
+			trace('Global.peopleKilled: ' + Global.peopleKilled);
 			Global.scareDistance = Global.peopleKilled * 20;		
 			Global.scareDistanceAfter = Global.scareDistance * 4;
 			FP.alarm(2, terrifyEveryone);
@@ -95,9 +94,25 @@ package
 			super.update();
 		}
 		
+		override public function destroy():void
+		{
+			// Stop sounds
+			if (drowningFader) drowningFader.cancel();
+			if (sndDrowning.playing) sndDrowning.stop();
+			
+			// Game end
+			if (Global.peopleKilled >= Global.NUMBER_OF_PEOPLE && !Global.gameEndController)
+			{
+				FP.world.add(Global.gameEndController = new GameEndController);
+			}
+			super.destroy();
+		}
+		
 		public function playDrowningSound():void
 		{
-			sndDrowning.play(0.5);
+			drowningFader = new SfxFader(sndDrowning, null, ONESHOT);
+			addTween(drowningFader);
+			sndDrowning.play();
 			drowningFader.fadeTo(0, 6);			
 		}
 		

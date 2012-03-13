@@ -21,7 +21,7 @@ package
 		override public function begin():void
 		{
 			// Fade In
-			add(new FadeIn);
+			//add(new FadeIn(Colors.BLACK, 10, 5));
 			
 			// Background
 			add(new Background);
