@@ -20,6 +20,9 @@ package
 		
 		override public function begin():void
 		{
+			// Fade In
+			add(new FadeIn);
+			
 			// Background
 			add(new Background);
 			

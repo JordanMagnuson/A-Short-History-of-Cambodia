@@ -33,13 +33,11 @@ package
 		
 		public static var preparingToJerk:Boolean = false;
 		public static var jerking:Boolean = false;
-		public static var jerkDuration:Number = 0.1;
+		public static var jerkDuration:Number = 0.08;
 		public static var jerkRadius:Number;
 		public static var jerkAlarm:Alarm;
 		public static var mover:LinearMotion;
 		public static var lastY:Number = 0;
-		
-		public var lastBubbleRelease:Number = 1;
 		
 		public function MouseController() 
 		{
@@ -85,16 +83,6 @@ package
 			{
 				releaseBubble();
 			}
-			lastBubbleRelease *= -1;
-			//if (lastBubbleRelease > 500)
-			//{
-				//releaseBubble();
-			//}
-			//else
-			//{
-				//lastBubbleRelease += FP.elapsed * 1000;
-				//trace('lastBubbleRelease: ' + lastBubbleRelease);
-			//}
 			
 			//if (Global.personGrabbed.health > Global.MIN_HEALTH)
 			//{
@@ -262,8 +250,6 @@ package
 		
 		public function releaseBubble():void
 		{
-			lastBubbleRelease = FP.timeFlag();
-			trace('lastBubbleRelease:' + lastBubbleRelease);
 			var xLoc:Number = x + FP.random * width * FP.choose(1, -1);
 			var yLoc:Number = y - height - FP.random * height;
 			FP.world.add(new Bubble(xLoc, yLoc));		
