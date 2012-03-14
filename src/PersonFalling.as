@@ -52,6 +52,7 @@ package
 					hitWater = true;
 					sndSplashUp.play();
 					sndSplashDown.play();
+					image.alpha = Global.UNDERWATER_ALPHA;
 				}
 				v -= aWater;
 			}

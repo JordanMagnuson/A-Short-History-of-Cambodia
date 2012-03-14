@@ -30,7 +30,7 @@ package
 		public function PersonDrowning(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100, scale:Number = 1) 
 		{
 			super(x, y, angle, health, maxHealth);
-			image.alpha = health / 100;		
+			image.alpha = Global.UNDERWATER_ALPHA;		
 			type = 'person_drowning';
 			angleDirection = FP.choose( -1, 1);
 			bubblesToRelease = MIN_BUBBLES + FP.rand(MAX_BUBBLES - MIN_BUBBLES + 1);
@@ -60,10 +60,22 @@ package
 			FP.alarm(2, terrifyEveryone);
 			
 			// Ambient sounds
-			if (Global.peopleKilled >= 1 && !Global.ambientController.started)
+			if (Global.peopleKilled == 1 && !Global.ambientController.sndHell01.playing)
+			{
+				Global.ambientController.playSpecificSound(Global.ambientController.sndHell01);
+			}	
+			else if (Global.peopleKilled == 2 && !Global.ambientController.sndHell02.playing)
+			{
+				Global.ambientController.playSpecificSound(Global.ambientController.sndHell02);
+			}		
+			else if (Global.peopleKilled == 3 && !Global.ambientController.sndHell03.playing)
+			{
+				Global.ambientController.playSpecificSound(Global.ambientController.sndHell03);
+			}	
+			else if (Global.peopleKilled >= 4 && !Global.ambientController.started)
 			{
 				Global.ambientController.start();
-			}			
+			}					
 		}
 		
 		public function terrifyEveryone():void

@@ -21,7 +21,7 @@ package
 			spritemap.add("go", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 3, false);
 			spritemap.centerOO();
 			spritemap.color = Colors.BLACK;
-			spritemap.alpha = 0.5;
+			spritemap.alpha = Global.UNDERWATER_ALPHA;
 		}
 		
 		override public function update():void

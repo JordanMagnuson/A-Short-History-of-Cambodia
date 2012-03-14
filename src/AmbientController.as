@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.Sfx;
 	import net.flashpunk.FP;
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.tweens.sound.SfxFader;
 	
 	/**
@@ -33,6 +34,8 @@ package
 		//public var sound03played:Boolean = false;
 		
 		public var soundFader:SfxFader;
+		
+		public var specificSoundFadeAlarm:Alarm;
 		
 		public function AmbientController() 
 		{
@@ -67,8 +70,38 @@ package
 			soundFader.fadeTo(0, duration); 				
 		}
 		
+		public function playSpecificSound(sound:Sfx):void
+		{
+			if (specificSoundFadeAlarm) specificSoundFadeAlarm.cancel();
+			if (currentSound && currentSound.playing) currentSound.stop();
+			trace('play specific sound');
+			currentSound = sound;
+			fadeOutPosition = currentSound.length - FADE_IN_DURATION;
+			currentSound.play(0);
+			soundFader = new SfxFader(currentSound, null, ONESHOT);
+			addTween(soundFader);
+			soundFader.fadeTo(1, FADE_IN_DURATION); 	
+			
+			// Set fade out
+			var fadeTime:Number = currentSound.length - FADE_IN_DURATION;
+			specificSoundFadeAlarm = new Alarm(fadeTime, fadeSpecificSound, ONESHOT);
+			addTween(specificSoundFadeAlarm, true);
+		}
+		
+		public function fadeSpecificSound():void
+		{		
+			trace('fade specific sound');
+			lastSound = currentSound;
+			startedFade = true;
+			soundFader = new SfxFader(currentSound, null, ONESHOT);
+			addTween(soundFader);
+			soundFader.fadeTo(0, FADE_IN_DURATION); 			
+		}
+		
 		public function playSound():void
 		{
+			if (specificSoundFadeAlarm) specificSoundFadeAlarm.cancel();
+			if (currentSound && currentSound.playing) currentSound.stop();			
 			trace('play sound');
 			startedFade = false;
 			do 

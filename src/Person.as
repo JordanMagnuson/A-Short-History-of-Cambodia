@@ -61,7 +61,7 @@ package
 		
 		override public function update():void
 		{
-			image.alpha = health / 100;
+			//if (health <= Global.MIN_HEALTH) image.alpha = health / 100;
 			super.update();
 		}
 		

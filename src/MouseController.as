@@ -79,7 +79,7 @@ package
 			}
 			
 			// Release Bubble
-			if (FP.random * jerkRadius > 2)
+			if (FP.random * jerkRadius > 2.5)
 			{
 				releaseBubble();
 			}
@@ -190,11 +190,11 @@ package
 			if (Global.personGrabbed)
 			{
 				graphic = handClosed;
-				handClosed.alpha = 1;
+				//handClosed.alpha = 1;
 				//handClosed.alpha = 0.5;
 				
 				// Plunge sound
-				if (y > Global.personGrabbed.floatLevel + 25 && lastY < Global.personGrabbed.floatLevel + 25)
+				if (y > Global.personGrabbed.floatLevel + Global.FLOAT_LEVEL_VARIATION && lastY < Global.personGrabbed.floatLevel + Global.FLOAT_LEVEL_VARIATION)
 				{
 					trace('plunge');
 					sndPlunge.play();
@@ -206,14 +206,14 @@ package
 			{
 				graphic = handOpen;
 				//mask = handOpenMask;
-				handOpen.alpha = 1;
+				//handOpen.alpha = 1;
 				//overlapPerson.image.color = Colors.BLOOD_RED;
 			}
 			else
 			{
 				graphic = handOpen;
 				//mask = handOpenMask;
-				handOpen.alpha = 0.5;
+				//handOpen.alpha = 0.5;
 			}
 			
 			// Jerking
@@ -240,6 +240,19 @@ package
 			else if (jerking)
 			{
 				stopJerking();
+			}
+			
+			if (Global.personGrabbed && y > Global.personGrabbed.floatLevel + Global.FLOAT_LEVEL_VARIATION)
+			{
+				(graphic as Image).alpha = Global.UNDERWATER_ALPHA;
+			}
+			else if (y > Global.WATER_LINE + Global.FLOAT_LEVEL_VARIATION)
+			{
+				(graphic as Image).alpha = Global.UNDERWATER_ALPHA;
+			}
+			else
+			{
+				(graphic as Image).alpha = 1;
 			}
 			
 			// Last y

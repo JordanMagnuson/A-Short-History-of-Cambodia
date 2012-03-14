@@ -11,6 +11,7 @@ package
 		public static const FLOAT_LEVEL_VARIATION:Number = 40;
 		public static const NUMBER_OF_PEOPLE:Number = 8;		// 8
 		public static const PHASE_DELAY_DIVIDER:Number = 200;	// for each pixel to the right, a person's wave phase is delayed by 1/200 of a second
+		public static const UNDERWATER_ALPHA:Number = 0.4;
 		
 		public static const PERSON_WIDTH:Number = 10;
 		public static const PERSON_HEIGHT:Number = 10;

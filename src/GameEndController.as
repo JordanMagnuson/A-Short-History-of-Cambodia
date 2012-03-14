@@ -26,13 +26,13 @@ package
 		override public function added():void
 		{	
 			trace('gameEndController added');
-			if (Global.ambientController.started) Global.ambientController.fadeOut(10);
+			if (Global.ambientController.started) Global.ambientController.fadeOut(20);
 			FP.alarm(MUSIC_IN_DELAY, startMusic);
 			
 			// Fade out waves
 			waveFader = new SfxFader(Game.sndWaves, null, ONESHOT);
 			addTween(waveFader);
-			waveFader.fadeTo(0, 10);		
+			waveFader.fadeTo(0, 20);		
 
 			super.added();
 		}

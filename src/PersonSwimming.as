@@ -21,6 +21,7 @@ package
 		public function PersonSwimming(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
 			super(x, y, angle, health, maxHealth);
+			image.alpha = Global.UNDERWATER_ALPHA;
 		}
 		
 		override public function update():void
@@ -38,7 +39,7 @@ package
 			
 			if (health > Global.MIN_HEALTH)
 			{
-				health -= Global.HEALTH_LOSS_RATE;
+				health -= Global.HEALTH_LOSS_RATE * 1.2;
 			}
 			else
 			{
