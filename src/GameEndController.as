@@ -32,7 +32,7 @@ package
 			// Fade out waves
 			waveFader = new SfxFader(Game.sndWaves, null, ONESHOT);
 			addTween(waveFader);
-			waveFader.fadeTo(0, 20);		
+			waveFader.fadeTo(0, 40);		
 
 			super.added();
 		}

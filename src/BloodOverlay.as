@@ -35,12 +35,14 @@ package
 		
 		override public function update():void
 		{
+			//trace('alpha: ' + canvas.alpha);
 			canvas.alpha = colorTween.alpha;
 			super.update();
 		}
 		
 		public function updateAlpha():void
 		{
+			trace('update alpha');
 			var newAlpha:Number = Math.pow(Global.peopleKilled, 0.7) / 10;
 			colorTween.tween(TWEEN_DURATION, Colors.WHITE, Colors.WHITE, canvas.alpha, newAlpha);
 		}

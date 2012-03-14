@@ -49,11 +49,11 @@ package
 		
 		public function startDrowning():void
 		{
-			drowning = true;	
+			drowning = true;
+			Global.peopleKilled += 1;
 			FP.alarm(1.5, releaseBubble);
 			FP.alarm(1.5, playDrowningSound);
 			Global.bloodOverlay.updateAlpha();	
-			Global.peopleKilled += 1;
 			trace('Global.peopleKilled: ' + Global.peopleKilled);
 			Global.scareDistance = Global.peopleKilled * 20;		
 			Global.scareDistanceAfter = Global.scareDistance * 4;

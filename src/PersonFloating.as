@@ -115,8 +115,10 @@ package
 				terrified = false;
 			}
 			
-			if (!scared && Global.peopleKilled >= Global.DEAD_BEFORE_ALWAYS_SACRED)
+			// TODO: This right here is messed up
+			if (!scared && Global.peopleKilled >= Global.DEAD_BEFORE_ALWAYS_SACRED)			
 			{
+				trace('forced scare');
 				scare();
 			}
 			
@@ -186,6 +188,7 @@ package
 		
 		override public function scaredMoverCallback():void
 		{
+			trace('scared mover callback');
 			if (FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistanceAfter)
 			{
 				scare();
@@ -194,7 +197,6 @@ package
 			{		
 				if (mover) mover.cancel();
 				scared = false;
-				trace('scared mover callback');
 				//mover.x = x;
 				if (y > floatLevel)
 					floatUp();
