@@ -62,6 +62,19 @@ package
 		override public function update():void
 		{
 			//if (health <= Global.MIN_HEALTH) image.alpha = health / 100;
+			
+			// Last person commits suicide
+			if (Global.peopleKilled >= Global.NUMBER_OF_PEOPLE - 1 && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance)
+			{
+				trace('suicide attempt');
+				if (this.getClass() != PersonDrowning)
+				{
+					trace('real suicide');
+					FP.world.add(new PersonDrowning(x, y, image.angle, health, maxHealth, image.scale));
+					this.destroy();
+				}
+			}
+			
 			super.update();
 		}
 		

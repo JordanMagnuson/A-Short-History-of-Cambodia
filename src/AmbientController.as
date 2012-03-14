@@ -100,6 +100,9 @@ package
 		
 		public function playSound():void
 		{
+			if (Global.peopleKilled >= Global.NUMBER_OF_PEOPLE)
+				return;
+				
 			if (specificSoundFadeAlarm) specificSoundFadeAlarm.cancel();
 			if (currentSound && currentSound.playing) currentSound.stop();			
 			trace('play sound');
