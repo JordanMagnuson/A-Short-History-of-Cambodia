@@ -20,19 +20,19 @@ package
 		
 		public function GameEndController() 
 		{
-			music = new Sfx(Assets.MUS_MURDERER, fadeOut);
+			//music = new Sfx(Assets.MUS_MURDERER, fadeOut);
 		}
 		
 		override public function added():void
 		{	
 			trace('gameEndController added');
-			if (Global.ambientController.started) Global.ambientController.fadeOut(20);
-			FP.alarm(MUSIC_IN_DELAY, startMusic);
+			if (Global.ambientController.started) Global.ambientController.fadeOut(40);
+			//FP.alarm(MUSIC_IN_DELAY, startMusic);
 			
 			// Fade out waves
-			waveFader = new SfxFader(Game.sndWaves, null, ONESHOT);
-			addTween(waveFader);
-			waveFader.fadeTo(0, 40);		
+			//waveFader = new SfxFader(Game.sndWaves, null, ONESHOT);
+			//addTween(waveFader);
+			//waveFader.fadeTo(0, 40);		
 
 			super.added();
 		}

@@ -39,7 +39,7 @@ package
 			
 			if (health > Global.MIN_HEALTH)
 			{
-				health -= Global.HEALTH_LOSS_RATE * 1.2;
+				health -= Global.HEALTH_LOSS_RATE * 2;
 			}
 			else
 			{

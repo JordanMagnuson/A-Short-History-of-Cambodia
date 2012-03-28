@@ -54,7 +54,7 @@ package
 		public function PersonGasping(x:Number = 0, y:Number = 0, angle:Number = 0, health:Number = 100, maxHealth:Number = 100) 
 		{
 			super(x, y, angle, health, maxHealth);
-			image.alpha = health / 100;
+			//image.alpha = health / 100;
 			sndGaspingFader = new SfxFader(sndGasping, destroy);
 		}
 		

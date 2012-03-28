@@ -38,7 +38,7 @@ package
 		[Embed(source = "../assets/sounds.swf", symbol = "hell_03_39222.wav")] public static const SND_HELL_03:Class;
 		
 		// Music
-		[Embed(source = "../assets/low_murderer.mp3")] public static const MUS_MURDERER:Class;
+		//[Embed(source = "../assets/low_murderer.mp3")] public static const MUS_MURDERER:Class;
 		
 		// Game over
 		[Embed(source = "../assets/curtain.png")] public static const CURTAIN:Class;
