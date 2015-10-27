@@ -8,7 +8,7 @@ package
 	{
 		public function Main() 
 		{
-			super(1000, 600, 60);
+			super(800, 600, 60);
 			//FP.screen.color = Colors.BLACK;
 			
 			// Console for debugging

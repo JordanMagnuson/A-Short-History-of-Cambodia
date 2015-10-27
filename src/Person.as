@@ -63,6 +63,9 @@ package
 		{
 			//if (health <= Global.MIN_HEALTH) image.alpha = health / 100;
 			
+			if (x < 0) x = 0;
+			if (x > FP.width) x = FP.width;			
+			
 			// Last person commits suicide
 			if (Global.peopleKilled >= Global.NUMBER_OF_PEOPLE - 1 && FP.distance(x, y, Global.mouseController.x, Global.mouseController.y) < Global.scareDistance)
 			{

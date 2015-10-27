@@ -13,7 +13,7 @@ package
 	import flash.utils.getDefinitionByName;
 	import flash.events.MouseEvent;
 	
-	[SWF(width = "1000", height = "600")]
+	[SWF(width = "800", height = "600")]
 	
 	/**
 	 * ...
@@ -46,6 +46,8 @@ package
 		public function Preloader() 
 		{					
 			// background
+			trace(width);
+			//backdrop.x = (910 - backdrop.width) / 2
 			addChild(backdrop);			
 			
 			addEventListener(Event.ENTER_FRAME, checkFrame);
